@@ -1,0 +1,85 @@
+\documentclass{article}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+<<echo=FALSE>>=
+library(ggplot2)
+@
+
+
+\section*{Graph the Data}
+
+\subsubsection*{Dax}
+
+<<>>=
+Dax = read.csv("Data/Dax_2000.csv",stringsAsFactors = FALSE)
+Dax$Date <- as.POSIXct(Dax$Date,format='%d/%m/%Y')
+@
+<<fig=TRUE>>=
+qplot(Dax$Date, Dax$Close, data = Dax, geom='line') + ggtitle("Dax 2000-2014") + ylab('')
+@
+
+Range:
+<<echo=FALSE>>=
+range(Dax$Close)
+@
+
+Range Last 30 days
+<<echo=FALSE>>=
+range(Dax$Close[(length(Dax$Close)-30):length(Dax$Close)])
+@
+
+Range Last 10 days
+<<echo=FALSE>>=
+range(Dax$Close[(length(Dax$Close)-10):length(Dax$Close)])
+@
+
+\subsection*{FTSE}
+<<echo=FALSE>>=
+FTSE = read.csv("Data/F100_2000.csv",stringsAsFactors = FALSE)
+FTSE$Date <- as.POSIXct(FTSE$Date,format='%d/%m/%Y')
+CAC = read.csv("Data/CAC_2000.csv",stringsAsFactors = FALSE)
+CAC$Date <- as.POSIXct(CAC$Date,format='%d/%m/%Y')
+Dow = read.csv("Data/Dow_2000.csv",stringsAsFactors = FALSE)
+Dow$Date <- as.POSIXct(Dow$Date,format='%d/%m/%Y')
+Nik = read.csv("Data/N225_2000.csv",stringsAsFactors = FALSE)
+Nik$Date <- as.POSIXct(Nik$Date,format='%d/%m/%Y')
+Oz = read.csv("Data/Oz_2000.csv",stringsAsFactors = FALSE)
+Oz$Date <- as.POSIXct(Oz$Date,format='%d/%m/%Y')
+@
+<<fig=TRUE,echo=FALSE>>=
+qplot(FTSE$Date, FTSE$Close, data = FTSE, geom='line') + ggtitle("FTSE 2000-2013") + ylab('Closing Price')
+@
+
+Range:
+<<echo=FALSE>>=
+range(FTSE$Close)
+@
+
+\subsection*{CAC}
+<<fig=TRUE,echo=FALSE>>=
+qplot(CAC$Date, CAC$Close, data = CAC, geom='line') + ggtitle("CAC 2000-2013") + ylab('Closing Price')
+@
+
+Range:
+<<echo=FALSE>>=
+range(CAC$Close)
+@
+
+\subsection*{Dow}
+<<fig=TRUE,echo=FALSE>>=
+qplot(Dow$Date, Dow$Close, data = Dow, geom='line') + ggtitle("Dow 2000-2013") + ylab('Closing Price')
+@
+
+\subsection*{Nikkei}
+<<fig=TRUE,echo=FALSE>>=
+qplot(Nik$Date, Nik$Close, data = Nik, geom='line') + ggtitle("Nik 2000-2013") + ylab('Closing Price')
+@
+
+\subsection*{Oz}
+<<fig=TRUE,echo=FALSE>>=
+qplot(Oz$Date, Oz$Close, data = Oz, geom='line') + ggtitle("Oz 2000-2013") + ylab('Closing Price')
+@
+
+\end{document}

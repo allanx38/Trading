@@ -1,0 +1,87 @@
+\documentclass{article}
+%\documentclass[a4paper,landscape]{article}
+
+\usepackage[a4paper,margin=1in,landscape]{geometry}
+\usepackage{hyperref}
+\hypersetup{urlcolor=black, colorlinks=true, linkcolor=blue, citecolor=blue} 
+
+
+\begin{document}
+
+%\tableofcontents % Write out the Table of Contents
+
+<<echo=FALSE>>=
+library(xtable)
+library(quantmod)
+library(TTR)
+library(candlesticks)
+@
+
+<<echo=FALSE>>=
+#Dax <- as.data.frame(getYahooData("^GDAXI", format(Sys.Date()-50, format="%Y%m%d"), format(Sys.Date(), format="%Y%m%d")))
+
+#getSymbols('^GDAXI',src='yahoo',from = "2014-01-01", to = Sys.Date())
+# getSymbols('^GDAXI',src='yahoo',from = Sys.Date() - 50, to = Sys.Date())
+
+#Dax <- as.data.frame(getYahooData("^GDAXI", format(Sys.Date()-50, format="%Y%m%d"), format(Sys.Date(), format="%Y%m%d")))
+
+Dax_xts <- getYahooData("^GDAXI", format(Sys.Date()-50, format="%Y%m%d"), format(Sys.Date(), format="%Y%m%d"))
+Dax_xts <- Dax_xts[,c(1,2,3,4)]
+
+@
+
+\section{Dax}
+
+<<echo=FALSE>>=
+#atr
+atr <- ATR(Dax_xts[,c(2,3,4)], n=12)
+Dax_xts <- cbind(Dax_xts,atr)
+Dax_xts <- Dax_xts[,c(1,2,3,4,6)]
+#Dax <- cbind(Dax, atr)
+# #aroon
+ar <- aroon(Dax_xts$Close, n=20)
+Dax_xts <- cbind(Dax_xts, ar)
+# # #stoch
+st <- stoch(Dax_xts$Close) #HL
+Dax_xts <- cbind(Dax_xts,st)
+# # # #roc
+Dax_xts$mom <- momentum(Dax_xts$Close,n=12) #HL
+lw <- quantile(Dax_xts$mom, na.rm=T, probs=0.25) 
+hi <- quantile(Dax_xts$mom, na.rm=T, probs=0.75)
+Dax_xts$lw <- lw
+Dax_xts$hi <- hi
+# # #candlestick
+#Dax$Date <- as.POSIXct(Dax$Date,format='%d/%m/%Y')
+#Dax_xts <- xts(Dax[,c(2,3,4,5)],Dax$Date)
+hh <- CSPHammer(Dax_xts[, c(1,2,3,4)])
+hi <- CSPInvertedHammer(Dax_xts[, c(1,2,3,4)])
+#hi <- as.data.frame(CSPInvertedHammer(Dax_xts))
+Dax_xts <- cbind(Dax_xts,hh)
+Dax_xts <- cbind(Dax_xts,hi)
+#Dax_xts <- cbind(Dax,Date)
+Dax <- as.data.frame(Dax_xts)
+Dax$Date <- rownames(Dax)
+ln <- length(Dax)
+Dax <- Dax[, c(ln, 2:ln-1)]
+@
+
+<<>>=
+tail(Dax_xts[,c(1:10)])
+@
+
+<<results=tex, echo=FALSE>>=
+# len <- length(Dax_xts) # num of cols
+# ali <- c('l','l')
+# ali <- c(ali, rep('c',len))
+
+xt <- xtable(tail(Dax,n=15), digits = 2, 
+             caption = c('Dax Aroon.'),
+             label = 'tab:dax_aroon')
+#align(xt) <- c(ali)
+align(xt) <- c('l','l','c','c','c','c','c','c','c','c','c','c','c','c','c','c','c','c')
+print(xt, include.rownames=FALSE, caption.placement = "top")
+
+@
+
+
+\end{document}

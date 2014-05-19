@@ -1,0 +1,276 @@
+\documentclass{article}
+%\documentclass[a4paper,landscape]{article}
+
+\usepackage[a4paper,margin=0.5in,landscape]{geometry}
+\usepackage{hyperref}
+\hypersetup{urlcolor=black, colorlinks=true, linkcolor=blue, citecolor=blue} 
+
+\begin{document}
+
+<<echo=FALSE>>=
+library(xtable)
+library(TTR)
+@
+
+<<echo=FALSE>>=
+t1 <- c(1:15)
+t2 <- c(16-22)
+@
+
+
+<<echo=FALSE>>=
+Dax <-read.csv(("../Data/Dax_ta.csv"),stringsAsFactors = FALSE)
+@
+
+<<echo=FALSE>>=
+Dax$OH <- Dax$High - Dax$Open
+Dax$OL <- Dax$Open - Dax$Low
+Dax$mn <- ifelse(Dax$OH>Dax$OL,Dax$OL,Dax$OH)
+Dax$mx <- ifelse(Dax$OH>Dax$OL,Dax$OH,Dax$OL)
+nr <- nrow(Dax)
+#qq <- quantile(Dax$mn[(nr-100):nr], probs=0.90)
+@
+
+<<echo=FALSE>>=
+dd <- ifelse(Dax$Diff>0,Dax$Diff,NA)
+@
+
+OH/OL min 90\% last 100 days: \Sexpr{quantile(Dax$mn[(nr-100):nr], probs=0.90)}
+
+SMA Q50\%:\Sexpr{quantile(dd, probs=0.50,na.rm=TRUE)}, 
+SMA Q50\% last 100 days:\Sexpr{quantile(dd[(nr-100):nr], probs=0.50,na.rm=TRUE)},
+SMA mean:\Sexpr{round(mean(dd,na.rm=TRUE))},
+SMA mean last 100 days:\Sexpr{round(mean(dd[(nr-100):nr],na.rm=TRUE))}
+
+<<results=tex, echo=FALSE>>=
+
+xt <- xtable(tail(Dax[, c(1:14)], n=15), digits = 2, 
+              caption = c('Dax.',
+                          'Dax'),
+              label = 'tab:aroon_results')
+#align(xt) <- ali
+align(xt) <- c('l','l','c','c','c','c','c','c','c','c','c','c','c','c','c')
+print(xt, include.rownames=FALSE, caption.placement = "top")
+@
+
+<<results=tex, echo=FALSE>>=
+xt <- xtable(tail(Dax[, c(1,15:21)], n=10), digits = 2, 
+              caption = c('Dax.',
+                          'Dax'),
+              label = 'tab:aroon_results')
+#align(xt) <- ali
+align(xt) <- c('l','l','c','c','c','c','c','c','c')
+print(xt, include.rownames=FALSE, caption.placement = "top")
+@
+
+% ------------------ CAC --------------------------------------
+\newpage
+<<echo=FALSE>>=
+Dax <-read.csv(("../Data/CAC_ta.csv"),stringsAsFactors = FALSE)
+@
+
+<<echo=FALSE>>=
+Dax$OH <- Dax$High - Dax$Open
+Dax$OL <- Dax$Open - Dax$Low
+Dax$mn <- ifelse(Dax$OH>Dax$OL,Dax$OL,Dax$OH)
+Dax$mx <- ifelse(Dax$OH>Dax$OL,Dax$OH,Dax$OL)
+nr <- nrow(Dax)
+qq <- quantile(Dax$mn[nr-10 : nr], probs=0.90)
+
+@
+
+<<echo=FALSE>>=
+dd <- ifelse(Dax$Diff>0,Dax$Diff,NA)
+#quantile(dd, probs=0.50,na.rm=TRUE)
+@
+
+nr: \Sexpr{nr}
+OH/OL min 90\%: \Sexpr{qq}
+
+SMA Q50\%:\Sexpr{quantile(dd, probs=0.50,na.rm=TRUE)}, 
+SMA mean:\Sexpr{round(mean(dd,na.rm=TRUE))}
+
+<<results=tex, echo=FALSE>>=
+xt <- xtable(tail(Dax[, c(1:14)], n=15), digits = 2, 
+              caption = c('CAC.',
+                          'Dax'),
+              label = 'tab:aroon_results')
+#align(xt) <- ali
+align(xt) <- c('l','l','c','c','c','c','c','c','c','c','c','c','c','c','c')
+ print(xt, include.rownames=FALSE, caption.placement = "top")
+@
+
+<<results=tex, echo=FALSE>>=
+xt <- xtable(tail(Dax[, c(1,15:21)], n=10), digits = 2, 
+              caption = c('CAC.',
+                          'Dax'),
+              label = 'tab:aroon_results')
+#align(xt) <- ali
+align(xt) <- c('l','l','c','c','c','c','c','c','c')
+print(xt, include.rownames=FALSE, caption.placement = "top")
+@
+
+% ------------------ FTSE --------------------------------------
+\newpage
+<<echo=FALSE>>=
+F100 <-read.csv(("../Data/F100_ta.csv"),stringsAsFactors = FALSE)
+@
+
+<<echo=FALSE>>=
+F100$OH <- F100$High - F100$Open
+F100$OL <- F100$Open - F100$Low
+F100$mn <- ifelse(F100$OH>F100$OL,F100$OL,F100$OH)
+F100$mx <- ifelse(F100$OH>F100$OL,F100$OH,F100$OL)
+qq <- quantile(F100$mn, probs=0.90)
+qq
+@
+
+<<echo=FALSE>>=
+dd <- ifelse(F100$Diff>0,F100$Diff,NA)
+quantile(dd, probs=0.50,na.rm=TRUE)
+@
+
+<<results=tex, echo=FALSE>>=
+xt <- xtable(tail(F100[, c(1:14)], n=15), digits = 2, 
+              caption = c('FTSE.',
+                          'F100'),
+              label = 'tab:aroon_results')
+#align(xt) <- ali
+align(xt) <- c('l','l','c','c','c','c','c','c','c','c','c','c','c','c','c')
+ print(xt, include.rownames=FALSE, caption.placement = "top")
+@
+
+<<echo=FALSE, results=tex>>=
+xt <- xtable(tail(F100[, c(1,15:21)], n=10), digits = 2, 
+              caption = c('F100.',
+                          'F100'),
+              label = 'tab:aroon_results')
+align(xt) <- c('l','l','c','c','c','c','c','c','c')
+print(xt, include.rownames=FALSE, caption.placement = "top")
+@
+
+
+% ------------------ Dow --------------------------------------
+\newpage
+
+<<echo=FALSE>>=
+F100 <-read.csv(("../Data/Dow_ta.csv"),stringsAsFactors = FALSE)
+@
+
+<<echo=FALSE>>=
+F100$OH <- F100$High - F100$Open
+F100$OL <- F100$Open - F100$Low
+F100$mn <- ifelse(F100$OH>F100$OL,F100$OL,F100$OH)
+F100$mx <- ifelse(F100$OH>F100$OL,F100$OH,F100$OL)
+qq <- quantile(F100$mn, probs=0.90)
+qq
+@
+
+<<echo=FALSE>>=
+dd <- ifelse(F100$Diff>0,F100$Diff,NA)
+quantile(dd, probs=0.50,na.rm=TRUE)
+@
+
+
+<<echo=FALSE, results=tex>>=
+xt <- xtable(tail(F100[, c(1:14)], n=15), digits = 2, 
+              caption = c('Dow.',
+                          'F100'),
+              label = 'tab:aroon_results')
+align(xt) <- c('l','l','c','c','c','c','c','c','c','c','c','c','c','c','c')
+ print(xt, include.rownames=FALSE, caption.placement = "top")
+@
+
+<<echo=FALSE,results=tex>>=
+xt <- xtable(tail(F100[, c(1,15:21)], n=10), digits = 2, 
+              caption = c('Dow.',
+                          'F100'),
+              label = 'tab:aroon_results')
+align(xt) <- c('l','l','c','c','c','c','c','c','c')
+print(xt, include.rownames=FALSE, caption.placement = "top")
+@
+
+
+% ------------------ N225 --------------------------------------
+\newpage
+<<echo=FALSE>>=
+F100 <-read.csv(("../Data/N225_ta.csv"),stringsAsFactors = FALSE)
+@
+
+<<echo=FALSE>>=
+F100$OH <- F100$High - F100$Open
+F100$OL <- F100$Open - F100$Low
+F100$mn <- ifelse(F100$OH>F100$OL,F100$OL,F100$OH)
+F100$mx <- ifelse(F100$OH>F100$OL,F100$OH,F100$OL)
+qq <- quantile(F100$mn, probs=0.90)
+qq
+@
+
+<<echo=FALSE>>=
+dd <- ifelse(F100$Diff>0,F100$Diff,NA)
+quantile(dd, probs=0.50,na.rm=TRUE)
+@
+
+
+<<echo=FALSE, results=tex>>=
+xt <- xtable(tail(F100[, c(1:14)], n=15), digits = 2, 
+              caption = c('N225.',
+                          'F100'),
+              label = 'tab:aroon_results')
+align(xt) <- c('l','l','c','c','c','c','c','c','c','c','c','c','c','c','c')
+ print(xt, include.rownames=FALSE, caption.placement = "top")
+@
+
+<<echo=FALSE,results=tex>>=
+xt <- xtable(tail(F100[, c(1,15:21)], n=10), digits = 2, 
+              caption = c('N225.',
+                          'N225'),
+              label = 'tab:aroon_results')
+align(xt) <- c('l','l','c','c','c','c','c','c','c')
+print(xt, include.rownames=FALSE, caption.placement = "top")
+@
+
+% ------------------ OZ --------------------------------------
+\newpage
+
+<<echo=FALSE>>=
+F100 <-read.csv(("../Data/Oz_ta.csv"),stringsAsFactors = FALSE)
+@
+
+<<echo=FALSE>>=
+F100$OH <- F100$High - F100$Open
+F100$OL <- F100$Open - F100$Low
+F100$mn <- ifelse(F100$OH>F100$OL,F100$OL,F100$OH)
+F100$mx <- ifelse(F100$OH>F100$OL,F100$OH,F100$OL)
+qq <- quantile(F100$mn, probs=0.90)
+qq
+@
+
+<<echo=FALSE>>=
+dd <- ifelse(F100$Diff>0,F100$Diff,NA)
+quantile(dd, probs=0.50,na.rm=TRUE)
+@
+
+
+<<echo=FALSE, results=tex>>=
+xt <- xtable(tail(F100[, c(1:14)], n=15), digits = 2, 
+              caption = c('Oz.',
+                          'Oz'),
+              label = 'tab:aroon_results')
+align(xt) <- c('l','l','c','c','c','c','c','c','c','c','c','c','c','c','c')
+ print(xt, include.rownames=FALSE, caption.placement = "top")
+@
+
+<<echo=FALSE,results=tex>>=
+xt <- xtable(tail(F100[, c(1,15:21)], n=10), digits = 2, 
+              caption = c('Oz.',
+                          'Oz'),
+              label = 'tab:aroon_results')
+align(xt) <- c('l','l','c','c','c','c','c','c','c')
+print(xt, include.rownames=FALSE, caption.placement = "top")
+@
+
+
+
+
+\end{document}

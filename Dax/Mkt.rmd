@@ -1,0 +1,27 @@
+Title
+========================================================
+
+Dax
+--------------------------------
+```{r echo=FALSE}
+library(xtable)
+library(TTR)
+```
+
+```{r echo=FALSE}
+Dax <-read.csv(("../Data/Dax_ta.csv"),stringsAsFactors = FALSE)
+Dax$OH <- Dax$High - Dax$Open
+Dax$OL <- Dax$Open - Dax$Low
+Dax$mn <- ifelse(Dax$OH>Dax$OL,Dax$OL,Dax$OH)
+Dax$mx <- ifelse(Dax$OH>Dax$OL,Dax$OH,Dax$OL)
+qq <- quantile(Dax$mn, probs=0.90)
+```
+
+OH / OL - `r qq`
+
+```{r echo=FALSE}
+tail(Dax[, c(2:15)], n=15)
+```
+```{r echo=FALSE}
+tail(Dax[, c(16:22)], n=5)
+```
