@@ -42,7 +42,6 @@ setwd("D:/Allan/DropBox/RWorkingDir/Trading/Dax")
 #3 indv
 #a. ------------- Dax
 Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_2000.csv")
-#Mkt$Date[20]
 Mkt[nrow(Mkt),]
 #Mkt$Date <- as.POSIXct(Mkt$Date,format='%Y-%m-%d') ;Mkt$Date[20]
 Mkt$Date <- as.POSIXct(Mkt$Date,format='%d/%m/%Y') ;Mkt$Date[20]
@@ -51,8 +50,6 @@ addTAInd(Mkt, "Dax_ta.csv")
 Mkt_ta <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_ta.csv")
 Mkt_ta$Date[nrow(Mkt_ta)]
 ln <- nrow(Mkt_ta) ;ln
-Mkt$Date[3663]
-r_p_ind(Mkt_ta, 3663)
 r_p_ind(Mkt_ta, ln)
 
 #b. ------------ CAC
@@ -66,7 +63,6 @@ addTAInd(Mkt, "CAC_ta.csv")
 Mkt_ta <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/CAC_ta.csv")
 Mkt_ta$Date[nrow(Mkt_ta)]
 ln <- nrow(Mkt_ta) ;ln
-ln <- ln -1
 r_p_ind(Mkt_ta, ln)
 
 # c. FTSE 

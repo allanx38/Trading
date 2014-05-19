@@ -1,0 +1,101 @@
+Magic
+========================================================
+
+```{r echo=FALSE}
+#setwd("F:/Allan/R Stuff/Dax")
+setwd("D:/Allan/DropBox/RWorkingDir/Trading/Dax")
+source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
+
+library(xtable)
+library(TTR)
+library(candlesticks)
+
+```
+
+
+```{r echo=FALSE}
+
+calcT <- function(Mkt){
+ln <- nrow(Mkt) ;ln
+dd <- run_rp_ind(Mkt,ln)
+tail(dd)
+colnames(dd) <- c('au_df','ad_df','os_df','tot')
+dd2 <- as.data.frame(dd)
+tail(dd2)  
+Mkt <- cbind(Mkt[-c(1:30), ], dd2)
+Mkt <- Mkt[ , c(1,2,3,4,5,6,22,23,24,25,26)]
+Mkt$PL1 <- ifelse(Mkt$tot>0,Mkt$Close-Mkt$Open,Mkt$Open-Mkt$Close)
+Mkt$WL <- ifelse(Mkt$PL1>0,1,0)
+sm <- SMA(Mkt$WL, 10)*10
+Mkt <- cbind(Mkt, sm)
+sma <- SMA(Mkt$sm, 10)
+Mkt <- cbind(Mkt, sma)
+#add prev sm and sma
+Mkt$prev_sm <- c( NA, Mkt$sm[ - length(Mkt$sm) ] )
+Mkt$prev_sma <- c( NA, Mkt$sma[ - length(Mkt$sma) ] )
+# cond for pl
+Mkt$PL2 <- ifelse(Mkt$prev_sm>Mkt$prev_sma,Mkt$PL1,0)
+  return(Mkt)
+}
+
+calcTgt5 <- function(Mkt){
+  ln <- nrow(Mkt) ;ln
+  dd <- run_rp(Mkt,ln)
+  colnames(dd) <- c('au_df','ad_df','os_df','tot','pl2')
+  dd2 <- as.data.frame(dd)
+  Mkt <- cbind(Mkt[-c(1:30), ], dd2)
+  Mkt <- Mkt[ , c(1,2,3,4,5,6,22,23,24,25,26)]
+  Mkt$PL <- ifelse(Mkt$tot>0,Mkt$Close-Mkt$Open,Mkt$Open-Mkt$Close)
+  Mkt$WL <- ifelse(Mkt$PL>0,1,0)
+  sm <- SMA(Mkt$WL, 10)*10
+  Mkt <- cbind(Mkt, sm)
+  sm2 <- SMA(Mkt$sm, 10)
+  Mkt <- cbind(Mkt, sm2)
+  Mkt$PL2 <- ifelse(Mkt$sm>5,Mkt$PL,0)
+  return(Mkt)
+}
+
+```
+
+### Dax
+```{r echo=FALSE}
+# Add TA
+Mkt <- read.csv("F:/Allan/R Stuff/Dax/Dax_2000.csv")
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_ta.csv")
+#Mkt$Date <- as.POSIXct(Mkt$Date,format='%Y-%m-%d') ;Mkt$Date[20]
+#Mkt$Date <- as.POSIXct(Mkt$Date,format='%d/%m/%Y') ;Mkt$Date[20]
+
+#Mkt <- addTAInd(Mkt) # adds Prev and writes file
+
+#Calc system
+#Mkt <- read.csv("F:/Allan/R Stuff/Dax/Dax_ta.csv")
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_ta.csv")
+b <- calcT(Mkt)
+a <- tail(b, n=15)
+
+s <- sum(a$PL2, na.rm=T)
+w <- sum(a$PL2>0, na.rm=T)
+l <- sum(a$PL2<0, na.rm=T) 
+lw <- round(w / (w+l),2) * 100
+
+tail(Mkt)
+r_p_ind(Mkt,3662)
+
+nr <- 3662
+au <- Mkt$aroonUp[nr] 
+  ad <- Mkt$aroonDn[nr] 
+  os <- Mkt$oscillator[nr] 
+  df <- Mkt$Diff[nr]
+
+sum ( Mkt[ (Mkt$aroonUp == au) & 
+               (Mkt$Diff > (df - 10) & Mkt$Diff < (df + 10)), 
+             c(22) ] ,na.rm=T)
+
+```
+
+Sum: `r s`, win rate: `r lw`
+
+```{r echo=FALSE, results='asis'}
+print(xtable(tail(a[c(1,2,3,4,5,11,12,13,14,15,16,17,18)])), type = "html")
+```
+

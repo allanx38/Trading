@@ -18,10 +18,19 @@ source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
 
 # 1 -------- Ind records - prev values
 ln <- nrow(Mkt) ;ln
+tail(Mkt)
+Mkt <- AddPrev(Mkt)
 r_p(Mkt, ln) ;Mkt$Date[ln] 
 
-ln <- 3591
+ln <- 3664
 r_p(Mkt, ln) ;Mkt$Date[ln]
+r_p(Mkt, ln)
+r_p_ind(Mkt, ln-1)
+
+
+sum ( Mkt[ (Mkt$prev_aroon_dn == ad) & 
+             (Mkt$prev_smadiff > (df - 10) & Mkt$prev_smadiff < (df + 10)), 
+           c(18) ] ,na.rm=T)
 
 # ---------- 2 Entire indice
 ln <- nrow(Mkt) ;ln
@@ -42,7 +51,7 @@ sum(dd2[ dd2$e < 0, 6])
 
 # 3 Indv ---------- today's values
 ln <- nrow(Mkt) ;ln
-ln <- 3590
+ln <- 3663
 #a <- Mkt$aroonUp[ln] ;a
 #d <- Mkt$aroonDn[ln] ;d
 #s <- Mkt$oscillator[ln] ;s

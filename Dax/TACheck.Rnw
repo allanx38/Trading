@@ -7,7 +7,7 @@
 
 <<echo=FALSE>>=
 setwd("D:/Allan/DropBox/RWorkingDir/Trading/Dax")
-#source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
+source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
 
 library(xtable)
 library(TTR)
@@ -24,73 +24,10 @@ gt5 <- FALSE
 @
 
 <<echo=FALSE>>=
-AddPrev <- function(Mkt){
-  Mkt <- Mkt[, 1:12]
-  Mkt$prev_smadiff <- c( NA, Mkt$Diff[ - length(Mkt$Diff) ] )
-  Mkt$prev_aroon_up <- c( NA, Mkt$aroonUp[ - length(Mkt$aroonUp) ] )
-  Mkt$prev_aroon_dn <- c( NA, Mkt$aroonDn[ - length(Mkt$aroonDn) ] )
-  Mkt$prev_aroon_os <- c( NA, Mkt$oscillator[ - length(Mkt$oscillator) ] )
-  Mkt$prev_mom <- c( NA, Mkt$mom[ - length(Mkt$mom) ] )
-  Mkt$pl <- Mkt$Close - Mkt$Open
-  return(Mkt)
-}
-
-# three comparison functions
-au_df <- function(Mkt, au, df){
-  sum ( Mkt[ (Mkt$prev_aroon_up == au) & 
-               (Mkt$prev_smadiff > (df - 10) & Mkt$prev_smadiff < (df + 10)), 
-             c(18) ] ,na.rm=T)
-}
-
-ad_df <- function(Mkt, ad, df){
-  sum ( Mkt[ (Mkt$prev_aroon_dn == ad) & 
-               (Mkt$prev_smadiff > (df - 10) & Mkt$prev_smadiff < (df + 10)), 
-             c(18) ] ,na.rm=T)
-}
-
-os_df <- function(Mkt, os, df){
-  sum ( Mkt[ (Mkt$prev_aroon_os == os) & 
-               (Mkt$prev_smadiff > (df - 10) & Mkt$prev_smadiff < (df + 10)), 
-             c(18) ] ,na.rm=T)
-}
-
-# applies comp functions to one row, uisng prev values
-r_p <- function(Mkt, nr){
-  #browser()
-  #Mkt <- AddPrev(Mkt)
-  #b <- Mkt$Date[nr]
-  au <- Mkt$prev_aroon_up[nr] 
-  ad <- Mkt$prev_aroon_dn[nr] 
-  os <- Mkt$prev_aroon_os[nr] 
-  df <- Mkt$prev_smadiff[nr]  
-  c <- au_df(Mkt,au,df)
-  d <- ad_df(Mkt,ad,df)
-  e <- os_df(Mkt,os,df)
-  e2 <- c+d+e
-  f <- Mkt$pl[nr]
-  
-  return(c(c,d,e,e2,f))
-}
-
-# loops thru r_p - pass in how many times ...
-run_rp <- function(Mkt,ln){
-  #browser()
-  Mkt <- AddPrev(Mkt)
-  a <- c(0,0,0,0,0)
-  for(i in 31:ln){
-    b <- r_p(Mkt,i)
-    a <- rbind(a,b)
-  }
-  a <- a[-c(1),]
-  return(a)
-}
-@
-
-<<echo=FALSE>>=
 calcT <- function(Mkt){
   ln <- nrow(Mkt) ;ln
   dd <- run_rp(Mkt,ln)
-  colnames(dd) <- c('au_df','ad_df','os_df','tot','pl2')
+  colnames(dd) <- c('au_df','ad_df','os_df','tot','OC')
   dd2 <- as.data.frame(dd)
   Mkt <- cbind(Mkt[-c(1:30), ], dd2)
   Mkt <- Mkt[ , c(1,2,3,4,5,6,22,23,24,25,26)]
@@ -98,15 +35,15 @@ calcT <- function(Mkt){
   Mkt$WL <- ifelse(Mkt$PL>0,1,0)
   sm <- SMA(Mkt$WL, 10)*10
   Mkt <- cbind(Mkt, sm)
-  sm2 <- SMA(Mkt$sm, 10)
-  Mkt <- cbind(Mkt, sm2)
-  Mkt$PL2 <- ifelse(Mkt$sm>Mkt$sm2,Mkt$PL,0)
-  
-  #sum(Mkt$PL2, na.rm=T)
-  #cc <- Mkt[complete.cases(Mkt),]
-  #nrow(cc)
-  #sum(cc$PL2>0)
-  #sum(cc$PL2>0) / nrow(cc)
+  sma <- SMA(Mkt$sm, 10)
+  Mkt <- cbind(Mkt, sma)
+  #add prev sm and sma
+  Mkt$prev_sm <- c( NA, Mkt$sm[ - length(Mkt$sm) ] )
+  Mkt$prev_sma <- c( NA, Mkt$sma[ - length(Mkt$sma) ] )
+  # cond for pl
+  Mkt$PL2 <- ifelse(Mkt$prev_sm>Mkt$prev_sma,Mkt$PL,0)
+  Mkt$PL3 <- ifelse(Mkt$prev_sm>5,Mkt$PL,0)
+  Mkt$PL4 <- ifelse(Mkt$prev_sm>5 & (Mkt$prev_sm>Mkt$prev_sma),Mkt$PL,0)
   return(Mkt)
 }
 
@@ -123,7 +60,8 @@ calcTgt5 <- function(Mkt){
   Mkt <- cbind(Mkt, sm)
   sm2 <- SMA(Mkt$sm, 10)
   Mkt <- cbind(Mkt, sm2)
-  Mkt$PL2 <- ifelse(Mkt$sm>5,Mkt$PL,0)
+  #Mkt$PL2 <- ifelse(Mkt$sm>5,Mkt$PL,0)
+  Mkt$PL2 <- ifelse(Mkt$sm<5 & (Mkt$sm>Mkt$sm2),Mkt$PL,0)
   return(Mkt)
 }
 @
@@ -157,18 +95,30 @@ Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_ta.csv")
  } else {
    a <- calcTgt5(Mkt)
  }
+sum(a$PL, na.rm=T)
+#tail(a)
+#sum(a$PL2,na.rm=T)
 @
 
 
 <<echo=F>>=
 b <- tail(a,n=t)
+b <- a
 c <- sum(b$PL2, na.rm=T)
 cc <- b[complete.cases(b),]
 d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+sum(cc$PL2!=0)
+
+s <- sum(b$PL, na.rm=T)
+w <- sum(b$PL>0, na.rm=T)
+l <- sum(b$PL<0, na.rm=T) 
+lw <- round(w / (w+l),2) * 100
 
 @
 
 Dax - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+
+%Dax - sum:  \Sexpr{s}, win rate: \Sexpr{lw}\%, trades: \Sexpr{sum(cc$PL2!=0)}
 
 <<echo=FALSE, results=tex>>=
 dat <- tail(a,n=t)
@@ -191,6 +141,7 @@ if(gt5 == F){
 
 <<echo=F>>=
 b <- tail(a,n=t)
+b <- a
 c <- sum(b$PL2, na.rm=T)
 cc <- b[complete.cases(b),]
 #nrow(cc)
@@ -249,10 +200,13 @@ if(gt5 == F){
 
 <<echo=F>>=
 b <- tail(a,n=t)
-c <- sum(b$PL2, na.rm=T)
+b <- a
+c <- sum(b$PL3, na.rm=T)
 cc <- b[complete.cases(b),]
 #nrow(cc)
 d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+d <- round(sum(cc$PL3>0) / (sum(cc$PL3<0) + sum(cc$PL3>0)),2) * 100
+d <- round(sum(cc$PL4>0) / (sum(cc$PL4<0) + sum(cc$PL4>0)),2) * 100
 @
 
 Dow - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
@@ -280,7 +234,6 @@ if(gt5 == F){
 b <- tail(a,n=t)
 c <- sum(b$PL2, na.rm=T)
 cc <- b[complete.cases(b),]
-#nrow(cc)
 d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
 @
 
@@ -313,7 +266,7 @@ cc <- b[complete.cases(b),]
 d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
 @
 
-Oz - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+Oz - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{)}
 
 <<echo=FALSE, results=tex>>=
 dat <- tail(a,n=t)

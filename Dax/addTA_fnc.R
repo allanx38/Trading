@@ -143,8 +143,6 @@ os_df <- function(Mkt, os, df){
 # applies comp functions to one row, uisng prev values
 r_p <- function(Mkt, nr){
   #browser()
-  #Mkt <- AddPrev(Mkt)
-  #b <- Mkt$Date[nr]
   au <- Mkt$prev_aroon_up[nr] 
   ad <- Mkt$prev_aroon_dn[nr] 
   os <- Mkt$prev_aroon_os[nr] 
@@ -174,7 +172,7 @@ run_rp <- function(Mkt,ln){
 # # applies comp functions to one row, uisng current rows
 r_p_ind <- function(Mkt, nr){
   #browser()
-  #Mkt <- AddPrev(Mkt)
+  Mkt <- AddPrev(Mkt)
   au <- Mkt$aroonUp[nr] 
   ad <- Mkt$aroonDn[nr] 
   os <- Mkt$oscillator[nr] 
