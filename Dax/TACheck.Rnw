@@ -1,280 +1,282 @@
 \documentclass{article}
 
-\usepackage[a4paper,margin=0.5in,landscape]{geometry}
-\usepackage{booktabs}
+%\usepackage[a4paper,margin=0.5in,landscape]{geometry}
+%\usepackage{booktabs}
 
 \begin{document}
+test
 
-<<echo=FALSE>>=
-setwd("D:/Allan/DropBox/RWorkingDir/Trading/Dax")
-source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
+% <<echo=FALSE>>=
+% setwd("D:/Allan/DropBox/RWorkingDir/Trading/Dax")
+% source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
+% 
+% library(xtable)
+% library(TTR)
+% #library(Quandl)
+% 
+% #Dow <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dow_ta.csv")
+% #Nik <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/N225_ta.csv")
+% #Oz <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Oz_ta.csv")
+% #FTSE <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/F100_ta.csv")
+% #CAC <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/CAC_ta.csv")
+% 
+% t <- 15
+% gt5 <- FALSE
+% #gt5 <- TRUE
+% @
+% 
+% <<echo=FALSE>>=
+% calcT <- function(Mkt){
+%   ln <- nrow(Mkt) ;ln
+%   dd <- run_rp(Mkt,ln)
+%   colnames(dd) <- c('au_df','ad_df','os_df','tot','OC')
+%   dd2 <- as.data.frame(dd)
+%   Mkt <- cbind(Mkt[-c(1:30), ], dd2)
+%   Mkt <- Mkt[ , c(1,2,3,4,5,6,22,23,24,25,26)]
+%   Mkt$PL <- ifelse(Mkt$tot>0,Mkt$Close-Mkt$Open,Mkt$Open-Mkt$Close)
+%   Mkt$WL <- ifelse(Mkt$PL>0,1,0)
+%   sm <- SMA(Mkt$WL, 10)*10
+%   Mkt <- cbind(Mkt, sm)
+%   sma <- SMA(Mkt$sm, 10)
+%   Mkt <- cbind(Mkt, sma)
+%   #add prev sm and sma
+%   Mkt$prev_sm <- c( NA, Mkt$sm[ - length(Mkt$sm) ] )
+%   Mkt$prev_sma <- c( NA, Mkt$sma[ - length(Mkt$sma) ] )
+%   # cond for pl
+%   #Mkt$PL2 <- ifelse(Mkt$prev_sm>Mkt$prev_sma,Mkt$PL,0)
+%   Mkt$PL2 <- ifelse(Mkt$prev_sm>5,Mkt$PL,0)
+%   #Mkt$PL4 <- ifelse(Mkt$prev_sm>5 & (Mkt$prev_sm>Mkt$prev_sma),Mkt$PL,0)
+%   return(Mkt)
+% }
+% 
+% # calcTgt5 <- function(Mkt){
+% #   ln <- nrow(Mkt) ;ln
+% #   dd <- run_rp(Mkt,ln)
+% #   colnames(dd) <- c('au_df','ad_df','os_df','tot','pl2')
+% #   dd2 <- as.data.frame(dd)
+% #   Mkt <- cbind(Mkt[-c(1:30), ], dd2)
+% #   Mkt <- Mkt[ , c(1,2,3,4,5,6,22,23,24,25,26)]
+% #   Mkt$PL <- ifelse(Mkt$tot>0,Mkt$Close-Mkt$Open,Mkt$Open-Mkt$Close)
+% #   Mkt$WL <- ifelse(Mkt$PL>0,1,0)
+% #   sm <- SMA(Mkt$WL, 10)*10
+% #   Mkt <- cbind(Mkt, sm)
+% #   sm2 <- SMA(Mkt$sm, 10)
+% #   Mkt <- cbind(Mkt, sm2)
+% #   #Mkt$PL2 <- ifelse(Mkt$sm>5,Mkt$PL,0)
+% #   Mkt$PL2 <- ifelse(Mkt$sm<5 & (Mkt$sm>Mkt$sm2),Mkt$PL,0)
+% #   return(Mkt)
+% # }
+% @
+% 
+% <<results=tex,echo=FALSE>>=
+% print_xt <- function(dat,dig,cap,lab,inclrnam){
+%   xt <- xtable(
+%     dat, 
+%     digits = 1, 
+%     caption = cap,
+%     label = lab
+%   )
+%   al <- c('l','l')
+%   al <- c(al, rep('c',ncol(dat)-1))
+%   align(xt) <- al
+%   print(xt, 
+%         include.rownames=inclrnam, 
+%         caption.placement = "top",
+%         hline.after=NULL,
+%         add.to.row=list(pos=list(-1,0, nrow(xt)),
+%                         command=c('\\toprule ', '\\midrule ', '\\bottomrule ')))
+%   
+% }
+% @
 
-library(xtable)
-library(TTR)
-
-#Dow <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dow_ta.csv")
-#Nik <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/N225_ta.csv")
-#Oz <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Oz_ta.csv")
-#FTSE <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/F100_ta.csv")
-#CAC <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/CAC_ta.csv")
-
-t <- 15
-gt5 <- FALSE
-#gt5 <- TRUE
-@
-
-<<echo=FALSE>>=
-calcT <- function(Mkt){
-  ln <- nrow(Mkt) ;ln
-  dd <- run_rp(Mkt,ln)
-  colnames(dd) <- c('au_df','ad_df','os_df','tot','OC')
-  dd2 <- as.data.frame(dd)
-  Mkt <- cbind(Mkt[-c(1:30), ], dd2)
-  Mkt <- Mkt[ , c(1,2,3,4,5,6,22,23,24,25,26)]
-  Mkt$PL <- ifelse(Mkt$tot>0,Mkt$Close-Mkt$Open,Mkt$Open-Mkt$Close)
-  Mkt$WL <- ifelse(Mkt$PL>0,1,0)
-  sm <- SMA(Mkt$WL, 10)*10
-  Mkt <- cbind(Mkt, sm)
-  sma <- SMA(Mkt$sm, 10)
-  Mkt <- cbind(Mkt, sma)
-  #add prev sm and sma
-  Mkt$prev_sm <- c( NA, Mkt$sm[ - length(Mkt$sm) ] )
-  Mkt$prev_sma <- c( NA, Mkt$sma[ - length(Mkt$sma) ] )
-  # cond for pl
-  Mkt$PL2 <- ifelse(Mkt$prev_sm>Mkt$prev_sma,Mkt$PL,0)
-  Mkt$PL3 <- ifelse(Mkt$prev_sm>5,Mkt$PL,0)
-  Mkt$PL4 <- ifelse(Mkt$prev_sm>5 & (Mkt$prev_sm>Mkt$prev_sma),Mkt$PL,0)
-  return(Mkt)
-}
-
-calcTgt5 <- function(Mkt){
-  ln <- nrow(Mkt) ;ln
-  dd <- run_rp(Mkt,ln)
-  colnames(dd) <- c('au_df','ad_df','os_df','tot','pl2')
-  dd2 <- as.data.frame(dd)
-  Mkt <- cbind(Mkt[-c(1:30), ], dd2)
-  Mkt <- Mkt[ , c(1,2,3,4,5,6,22,23,24,25,26)]
-  Mkt$PL <- ifelse(Mkt$tot>0,Mkt$Close-Mkt$Open,Mkt$Open-Mkt$Close)
-  Mkt$WL <- ifelse(Mkt$PL>0,1,0)
-  sm <- SMA(Mkt$WL, 10)*10
-  Mkt <- cbind(Mkt, sm)
-  sm2 <- SMA(Mkt$sm, 10)
-  Mkt <- cbind(Mkt, sm2)
-  #Mkt$PL2 <- ifelse(Mkt$sm>5,Mkt$PL,0)
-  Mkt$PL2 <- ifelse(Mkt$sm<5 & (Mkt$sm>Mkt$sm2),Mkt$PL,0)
-  return(Mkt)
-}
-@
-
-<<results=tex,echo=FALSE>>=
-print_xt <- function(dat,dig,cap,lab,inclrnam){
-  xt <- xtable(
-    dat, 
-    digits = 1, 
-    caption = cap,
-    label = lab
-  )
-  al <- c('l','l')
-  al <- c(al, rep('c',ncol(dat)-1))
-  align(xt) <- al
-  print(xt, 
-        include.rownames=inclrnam, 
-        caption.placement = "top",
-        hline.after=NULL,
-        add.to.row=list(pos=list(-1,0, nrow(xt)),
-                        command=c('\\toprule ', '\\midrule ', '\\bottomrule ')))
-  
-}
-@
-
-% ------------------------------------------------------------------
-<<echo=FALSE>>=
-Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_ta.csv")
- if(gt5 == F){
-   a <- calcT(Mkt)
- } else {
-   a <- calcTgt5(Mkt)
- }
-sum(a$PL, na.rm=T)
-#tail(a)
-#sum(a$PL2,na.rm=T)
-@
-
-
-<<echo=F>>=
-b <- tail(a,n=t)
-b <- a
-c <- sum(b$PL2, na.rm=T)
-cc <- b[complete.cases(b),]
-d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
-sum(cc$PL2!=0)
-
-s <- sum(b$PL, na.rm=T)
-w <- sum(b$PL>0, na.rm=T)
-l <- sum(b$PL<0, na.rm=T) 
-lw <- round(w / (w+l),2) * 100
-
-@
-
-Dax - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+% % ------------------------------------------------------------------
+% <<echo=FALSE>>=
+% Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_ta.csv")
+%  if(gt5 == F){
+%    a <- calcT(Mkt)
+%  } else {
+%    a <- calcTgt5(Mkt)
+%  }
+% #sum(a$PL, na.rm=T)
+% #tail(a)
+% #sum(a$PL2,na.rm=T)
+% @
+% 
+% 
+% <<echo=F>>=
+% b <- tail(a,n=t)
+% #b <- a
+% c <- sum(b$PL2, na.rm=T)
+% cc <- b[complete.cases(b),]
+% d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+% sum(cc$PL2!=0)
+% 
+% # s <- sum(b$PL, na.rm=T)
+% # w <- sum(b$PL>0, na.rm=T)
+% # l <- sum(b$PL<0, na.rm=T) 
+% # lw <- round(w / (w+l),2) * 100
+% 
+% @
+% 
+% Dax - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
 
 %Dax - sum:  \Sexpr{s}, win rate: \Sexpr{lw}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+% 
+% <<echo=FALSE, results=tex>>=
+% dat <- tail(a,n=t)
+% dig <- 0
+% cap <- c("Dax.")
+% lab = 'tab:chp_ts:sma'
+% inclrnam=FALSE
+% print_xt(dat,dig,cap,lab,inclrnam)
+% @
 
-<<echo=FALSE, results=tex>>=
-dat <- tail(a,n=t)
-dig <- 0
-cap <- c("Dax.")
-lab = 'tab:chp_ts:sma'
-inclrnam=FALSE
-print_xt(dat,dig,cap,lab,inclrnam)
-@
-
-% ----------------------------------------------------
-<<echo=FALSE>>=
-Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/CAC_ta.csv")
-if(gt5 == F){
-   a <- calcT(Mkt)
- } else {
-   a <- calcTgt5(Mkt)
- }
-@
-
-<<echo=F>>=
-b <- tail(a,n=t)
-b <- a
-c <- sum(b$PL2, na.rm=T)
-cc <- b[complete.cases(b),]
-#nrow(cc)
-d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
-@
-
-CAC - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
-
-<<echo=FALSE, results=tex>>=
-dat <- tail(a,n=t)
-dig <- 0
-cap <- c("CAC.")
-lab = 'tab:cac'
-inclrnam=FALSE
-print_xt(dat,dig,cap,lab,inclrnam)
-@
-
-% ---------------------------------------------------
-<<echo=FALSE>>=
-Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/F100_ta.csv")
-if(gt5 == F){
-   a <- calcT(Mkt)
- } else {
-   a <- calcTgt5(Mkt)
- }
-@
-
-<<echo=F>>=
-b <- tail(a,n=t)
-c <- sum(b$PL2, na.rm=T)
-cc <- b[complete.cases(b),]
-#nrow(cc)
-d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
-@
-
-FTSE - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
-
-<<echo=FALSE, results=tex>>=
-dat <- tail(a,n=t)
-dig <- 0
-cap <- c("FTSE.")
-lab = 'tab:ftse'
-inclrnam=FALSE
-print_xt(dat,dig,cap,lab,inclrnam)
-@
-
-% ---------------------------------------
-<<echo=FALSE>>=
-Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dow_ta.csv")
-if(gt5 == F){
-   a <- calcT(Mkt)
- } else {
-   a <- calcTgt5(Mkt)
- }
-@
-
-<<echo=F>>=
-b <- tail(a,n=t)
-b <- a
-c <- sum(b$PL3, na.rm=T)
-cc <- b[complete.cases(b),]
-#nrow(cc)
-d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
-d <- round(sum(cc$PL3>0) / (sum(cc$PL3<0) + sum(cc$PL3>0)),2) * 100
-d <- round(sum(cc$PL4>0) / (sum(cc$PL4<0) + sum(cc$PL4>0)),2) * 100
-@
-
-Dow - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
-
-<<echo=FALSE, results=tex>>=
-dat <- tail(a,n=t)
-dig <- 0
-cap <- c("Dow.")
-lab = 'tab:dow'
-inclrnam=FALSE
-print_xt(dat,dig,cap,lab,inclrnam)
-@
-
-% ---------------------------------------
-<<echo=FALSE>>=
-Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/N225_ta.csv")
-if(gt5 == F){
-   a <- calcT(Mkt)
- } else {
-   a <- calcTgt5(Mkt)
- }
-@
-
-<<echo=F>>=
-b <- tail(a,n=t)
-c <- sum(b$PL2, na.rm=T)
-cc <- b[complete.cases(b),]
-d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
-@
-
-Nik - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
-
-<<echo=FALSE, results=tex>>=
-dat <- tail(a,n=t)
-dig <- 0
-cap <- c("Nikkei.")
-lab = 'tab:nik'
-inclrnam=FALSE
-print_xt(dat,dig,cap,lab,inclrnam)
-@
-
-% ---------------------------------------
-<<echo=FALSE>>=
-Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Oz_ta.csv")
-if(gt5 == F){
-   a <- calcT(Mkt)
- } else {
-   a <- calcTgt5(Mkt)
- }
-@
-
-<<echo=F>>=
-b <- tail(a,n=t)
-c <- sum(b$PL2, na.rm=T)
-cc <- b[complete.cases(b),]
-#nrow(cc)
-d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
-@
-
-Oz - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{)}
-
-<<echo=FALSE, results=tex>>=
-dat <- tail(a,n=t)
-dig <- 0
-cap <- c("Oz.")
-lab = 'tab:oz'
-inclrnam=FALSE
-print_xt(dat,dig,cap,lab,inclrnam)
-@
+% % ----------------------------------------------------
+% <<echo=FALSE>>=
+% Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/CAC_ta.csv")
+% if(gt5 == F){
+%    a <- calcT(Mkt)
+%  } else {
+%    a <- calcTgt5(Mkt)
+%  }
+% @
+% 
+% <<echo=F>>=
+% b <- tail(a,n=t)
+% #b <- a
+% c <- sum(b$PL2, na.rm=T)
+% cc <- b[complete.cases(b),]
+% #nrow(cc)
+% d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+% @
+% 
+% CAC - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+% 
+% <<echo=FALSE, results=tex>>=
+% dat <- tail(a,n=t)
+% dig <- 0
+% cap <- c("CAC.")
+% lab = 'tab:cac'
+% inclrnam=FALSE
+% print_xt(dat,dig,cap,lab,inclrnam)
+% @
+% 
+% % ---------------------------------------------------
+% <<echo=FALSE>>=
+% Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/F100_ta.csv")
+% if(gt5 == F){
+%    a <- calcT(Mkt)
+%  } else {
+%    a <- calcTgt5(Mkt)
+%  }
+% @
+% 
+% <<echo=F>>=
+% b <- tail(a,n=t)
+% c <- sum(b$PL2, na.rm=T)
+% cc <- b[complete.cases(b),]
+% #nrow(cc)
+% d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+% @
+% 
+% FTSE - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+% 
+% <<echo=FALSE, results=tex>>=
+% dat <- tail(a,n=t)
+% dig <- 0
+% cap <- c("FTSE.")
+% lab = 'tab:ftse'
+% inclrnam=FALSE
+% print_xt(dat,dig,cap,lab,inclrnam)
+% @
+% 
+% % ---------------------------------------
+% <<echo=FALSE>>=
+% Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dow_ta.csv")
+% if(gt5 == F){
+%    a <- calcT(Mkt)
+%  } else {
+%    a <- calcTgt5(Mkt)
+%  }
+% @
+% 
+% <<echo=F>>=
+% b <- tail(a,n=t)
+% #b <- a
+% c <- sum(b$PL3, na.rm=T)
+% cc <- b[complete.cases(b),]
+% #nrow(cc)
+% d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+% #d <- round(sum(cc$PL3>0) / (sum(cc$PL3<0) + sum(cc$PL3>0)),2) * 100
+% #d <- round(sum(cc$PL4>0) / (sum(cc$PL4<0) + sum(cc$PL4>0)),2) * 100
+% @
+% 
+% Dow - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+% 
+% <<echo=FALSE, results=tex>>=
+% dat <- tail(a,n=t)
+% dig <- 0
+% cap <- c("Dow.")
+% lab = 'tab:dow'
+% inclrnam=FALSE
+% print_xt(dat,dig,cap,lab,inclrnam)
+% @
+% 
+% % ---------------------------------------
+% <<echo=FALSE>>=
+% Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/N225_ta.csv")
+% if(gt5 == F){
+%    a <- calcT(Mkt)
+%  } else {
+%    a <- calcTgt5(Mkt)
+%  }
+% @
+% 
+% <<echo=F>>=
+% b <- tail(a,n=t)
+% c <- sum(b$PL2, na.rm=T)
+% cc <- b[complete.cases(b),]
+% d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+% @
+% 
+% Nik - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+% 
+% <<echo=FALSE, results=tex>>=
+% dat <- tail(a,n=t)
+% dig <- 0
+% cap <- c("Nikkei.")
+% lab = 'tab:nik'
+% inclrnam=FALSE
+% print_xt(dat,dig,cap,lab,inclrnam)
+% @
+% 
+% % ---------------------------------------
+% <<echo=FALSE>>=
+% Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Oz_ta.csv")
+% if(gt5 == F){
+%    a <- calcT(Mkt)
+%  } else {
+%    a <- calcTgt5(Mkt)
+%  }
+% @
+% 
+% <<echo=F>>=
+% b <- tail(a,n=t)
+% c <- sum(b$PL2, na.rm=T)
+% cc <- b[complete.cases(b),]
+% #nrow(cc)
+% d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+% @
+% 
+% Oz - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{)}
+% 
+% <<echo=FALSE, results=tex>>=
+% dat <- tail(a,n=t)
+% dig <- 0
+% cap <- c("Oz.")
+% lab = 'tab:oz'
+% inclrnam=FALSE
+% print_xt(dat,dig,cap,lab,inclrnam)
+% @
 
 \end{document}

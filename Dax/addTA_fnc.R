@@ -26,8 +26,8 @@ addTA <- function(fil, nm){
   for(i in 1:length(fil)){
     Mkt <- read.csv(fil[i])
     Mkt[2:5] <- round(Mkt[2:5])
-    #atr
     
+    #atr
     atr <- ATR(Mkt[,c("High","Low","Close")], n=14)
     Mkt$atr <- round(atr[,"atr"])
     
@@ -68,10 +68,10 @@ addTA <- function(fil, nm){
 
 # Add TA info to just one indice
 addTAInd <- function(Mkt, nm){
-  #browser()
+  browser()
   Mkt[2:5] <- round(Mkt[2:5])
-  #atr
   
+  #atr
   atr <- ATR(Mkt[,c("High","Low","Close")], n=14)
   Mkt$atr <- round(atr[,"atr"])
   
