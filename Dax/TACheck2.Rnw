@@ -1,0 +1,129 @@
+\documentclass{article}
+
+\usepackage[a4paper,margin=0.5in,landscape]{geometry}
+%\usepackage{booktabs}
+
+\begin{document}
+
+<<echo=FALSE>>=
+library(xtable)
+setwd("D:/Allan/DropBox/RWorkingDir/Trading/Dax")
+source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
+@
+
+
+<<echo=FALSE>>=
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_ta.csv")
+b <- calcT(Mkt)
+res <- tail(b[, -c(6,7,8,9,10,11,12)],n=15)
+wr <- round(sum(res$PL2>0) / (sum(res$PL2>0) + sum(res$PL2<0)),2) * 100
+
+c <- sum(res$PL2, na.rm=T)
+cc <- res[complete.cases(res),]
+d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+@
+ 
+Dax - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+
+<<echo=FALSE, results=tex>>=
+print(xtable(res,caption ="Dax"), 
+        include.rownames=F,caption.placement = "top")
+@
+
+% -----------------------------------------------------
+<<echo=FALSE>>=
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/CAC_ta.csv")
+b <- calcT(Mkt)
+res <- tail(b[, -c(6,7,8,9,10,11,12)],n=15)
+wr <- round(sum(res$PL2>0) / (sum(res$PL2>0) + sum(res$PL2<0)),2) * 100
+
+c <- sum(res$PL2, na.rm=T)
+cc <- res[complete.cases(res),]
+d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+@
+ 
+CAC - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+
+<<echo=FALSE, results=tex>>=
+print(xtable(res,caption ="CAC"), 
+        include.rownames=F,caption.placement = "top")
+@
+
+% -----------------------------------------------------
+<<echo=FALSE>>=
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/F100_ta.csv")
+b <- calcT(Mkt)
+res <- tail(b[, -c(6,7,8,9,10,11,12)],n=15)
+wr <- round(sum(res$PL2>0) / (sum(res$PL2>0) + sum(res$PL2<0)),2) * 100
+
+c <- sum(res$PL2, na.rm=T)
+cc <- res[complete.cases(res),]
+d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+@
+ 
+FTSE - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+
+<<echo=FALSE, results=tex>>=
+print(xtable(res,caption ="FTSE"), 
+        include.rownames=F,caption.placement = "top")
+@
+
+% -----------------------------------------------------
+<<echo=FALSE>>=
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dow_ta.csv")
+b <- calcT(Mkt)
+res <- tail(b[, -c(6,7,8,9,10,11,12)],n=15)
+wr <- round(sum(res$PL2>0) / (sum(res$PL2>0) + sum(res$PL2<0)),2) * 100
+
+c <- sum(res$PL2, na.rm=T)
+cc <- res[complete.cases(res),]
+d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+@
+ 
+Dow - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+
+<<echo=FALSE, results=tex>>=
+print(xtable(res,caption ="Dow"), 
+        include.rownames=F,caption.placement = "top")
+@
+
+% -----------------------------------------------------
+<<echo=FALSE>>=
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/N225_ta.csv")
+b <- calcT(Mkt)
+res <- tail(b[, -c(6,7,8,9,10,11,12)],n=15)
+wr <- round(sum(res$PL2>0) / (sum(res$PL2>0) + sum(res$PL2<0)),2) * 100
+
+c <- sum(res$PL2, na.rm=T)
+cc <- res[complete.cases(res),]
+d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+@
+ 
+Nik - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+
+<<echo=FALSE, results=tex>>=
+print(xtable(res,caption ="Nik"), 
+        include.rownames=F,caption.placement = "top")
+@
+
+% -----------------------------------------------------
+<<echo=FALSE>>=
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Oz_ta.csv")
+b <- calcT(Mkt)
+res <- tail(b[, -c(6,7,8,9,10,11,12)],n=15)
+wr <- round(sum(res$PL2>0) / (sum(res$PL2>0) + sum(res$PL2<0)),2) * 100
+
+c <- sum(res$PL2, na.rm=T)
+cc <- res[complete.cases(res),]
+d <- round(sum(cc$PL2>0) / (sum(cc$PL2<0) + sum(cc$PL2>0)),2) * 100
+@
+ 
+Oz - sum:  \Sexpr{c}, win rate: \Sexpr{d}\%, trades: \Sexpr{sum(cc$PL2!=0)}
+
+<<echo=FALSE, results=tex>>=
+print(xtable(res,caption ="OZ"), 
+        include.rownames=F,caption.placement = "top")
+@
+
+
+\end{document}
