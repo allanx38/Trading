@@ -68,7 +68,7 @@ addTA <- function(fil, nm){
 
 # Add TA info to just one indice
 addTAInd <- function(Mkt, nm){
-  browser()
+  #browser()
   Mkt[2:5] <- round(Mkt[2:5])
   
   #atr
@@ -182,4 +182,73 @@ r_p_ind <- function(Mkt, nr){
   e <- os_df(Mkt,os,df)
   e2 <- c+d+e
   return(c(c,d,e,e2))
+}
+
+calcT_orig <- function(Mkt){
+  ln <- nrow(Mkt)
+  dd <- run_rp(Mkt,ln)
+  #colnames(dd) <- c('au_df','ad_df','os_df','tot','OC')
+  colnames(dd) <- c('au_df','ad_df','os_df','tot','OC')
+  dd2 <- as.data.frame(dd)
+  Mkt <- cbind(Mkt[-c(1:30), ], dd2)
+  Mkt <- Mkt[ , c(1,2,3,4,5,6,22,23,24,25,26)]
+  Mkt$PLCC <- ifelse(Mkt$tot>0,Mkt$Close-Mkt$PreC,Mkt$PreC-Mkt$Close)      
+  Mkt$PL <- ifelse(Mkt$tot>0,Mkt$Close-Mkt$Open,Mkt$Open-Mkt$Close)
+  Mkt$WL <- ifelse(Mkt$PL>0,1,0)
+  sm <- SMA(Mkt$WL, 10)*10
+  Mkt <- cbind(Mkt, sm)
+  sma <- SMA(Mkt$sm, 10)
+  Mkt <- cbind(Mkt, sma)
+  #add prev sm and sma
+  Mkt$prev_sm <- c( NA, Mkt$sm[ - length(Mkt$sm) ] )
+  Mkt$prev_sma <- c( NA, Mkt$sma[ - length(Mkt$sma) ] )
+  #cond for pl
+  #Mkt$PL2 <- ifelse(Mkt$prev_sm>Mkt$prev_sma,Mkt$PL,0)
+  Mkt$PL2 <- ifelse(Mkt$prev_sm>5,Mkt$PL,0)
+  #Mkt$PL4 <- ifelse(Mkt$prev_sm>5 & (Mkt$prev_sm>Mkt$prev_sma),Mkt$PL,0)
+  return(Mkt)
+}
+
+calcT <- function(Mkt){
+  ln <- nrow(Mkt)
+  dd <- run_rp(Mkt,ln)
+  colnames(dd) <- c('au_df','ad_df','os_df','tot','OC')
+  dd2 <- as.data.frame(dd)
+  Mkt <- cbind(Mkt[-c(1:30), ], dd2)
+  Mkt <- Mkt[ , c(1,2,3,4,5,6,22,23,24,25,26)]
+  Mkt$PLCC <- ifelse(Mkt$tot>0,Mkt$Close-Mkt$PreC,Mkt$PreC-Mkt$Close)      
+  Mkt$PL <- ifelse(Mkt$tot>0,Mkt$Close-Mkt$Open,Mkt$Open-Mkt$Close)
+  Mkt$WL <- ifelse(Mkt$PL>0,1,0)
+  sm <- SMA(Mkt$WL, 10)*10
+  Mkt <- cbind(Mkt, sm)
+  sma <- SMA(Mkt$sm, 10)
+  Mkt <- cbind(Mkt, sma)
+  #add prev sm and sma
+  Mkt$prev_sm <- c( NA, Mkt$sm[ - length(Mkt$sm) ] )
+  Mkt$prev_sma <- c( NA, Mkt$sma[ - length(Mkt$sma) ] )
+  #cond for pl
+  #Mkt$PL2 <- ifelse(Mkt$prev_sm>Mkt$prev_sma,Mkt$PL,0)
+  Mkt$PL2 <- ifelse(Mkt$prev_sm>9,Mkt$PL,0)
+  #Mkt$PL2 <- ifelse(Mkt$prev_sm>5 & (Mkt$prev_sm>Mkt$prev_sma),Mkt$PL,0)
+  #Mkt$PL2 <- Mkt$PL
+  return(Mkt)
+}
+
+print_xt <- function(dat,dig,cap,lab,inclrnam){
+  xt <- xtable(
+    dat, 
+    digits = 1, 
+    caption = cap,
+    label = lab
+  )
+  al <- c('l','l')
+  al <- c(al, rep('c',ncol(dat)-1))
+  align(xt) <- al
+  print(xt, 
+        include.rownames=inclrnam, 
+        caption.placement = "top",
+        hline.after=NULL,
+        add.to.row=list(pos=list(-1,0, nrow(xt)),
+                        command=c('\\toprule ', '\\midrule ', '\\bottomrule ')))
+  
 }
