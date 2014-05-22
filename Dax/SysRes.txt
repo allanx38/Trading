@@ -1,0 +1,740 @@
+Dax
+ 
+> c('run',' 2')
+[1] "run" " 2"
+> b <- calcT(Mkt,2)
+> sum(b$PL2, na.rm=T)
+[1] 97907
+> #sum(b$PL2>0, na.rm=T)
+> #sum(b$PL2<0, na.rm=T)
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6509461
+> bb <- na.omit(b) 
+> mean(bb[bb$PL2>0,18])
+[1] 62.58678
+> mean(bb[bb$PL2<0,18])
+[1] -37.64639
+>
+> c('run',' 3')
+[1] "run" " 3"
+> b <- calcT(Mkt,3)
+> sum(b$PL2, na.rm=T)
+[1] 96966
+> #sum(b$PL2>0, na.rm=T)
+> #sum(b$PL2<0, na.rm=T)
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6544075
+> bb <- na.omit(b) 
+> mean(bb[bb$PL2>0,18])
+[1] 63.06708
+> mean(bb[bb$PL2<0,18])
+[1] -37.67146
+>
+> c('run',' 4')
+[1] "run" " 4"
+> b <- calcT(Mkt,4)
+> sum(b$PL2, na.rm=T)
+[1] 91197
+> #sum(b$PL2>0, na.rm=T)
+> #sum(b$PL2<0, na.rm=T)
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6570973
+> bb <- na.omit(b) 
+> mean(bb[bb$PL2>0,18])
+[1] 64.11733
+> mean(bb[bb$PL2<0,18])
+[1] -38.18843
+>
+> c('run',' 5')
+[1] "run" " 5"
+> b <- calcT(Mkt,5)
+> sum(b$PL2, na.rm=T)
+[1] 82718
+> #sum(b$PL2>0, na.rm=T)
+> #sum(b$PL2<0, na.rm=T)
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6667952
+> bb <- na.omit(b) 
+> mean(bb[bb$PL2>0,18])
+[1] 67.10447
+> mean(bb[bb$PL2<0,18])
+[1] -38.72358
+> c('run',' 6')
+[1] "run" " 6"
+> b <- calcT(Mkt,6)
+> sum(b$PL2, na.rm=T)
+[1] 65877
+> #sum(b$PL2>0, na.rm=T)
+> #sum(b$PL2<0, na.rm=T)
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6847098
+> bb <- na.omit(b) 
+> mean(bb[bb$PL2>0,18])
+[1] 72.04586
+> mean(bb[bb$PL2<0,18])
+[1] -40.08719
+>
+> c('run',' 7')
+[1] "run" " 7"
+> b <- calcT(Mkt,7)
+> sum(b$PL2, na.rm=T)
+[1] 41419
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6920732
+> bb <- na.omit(b) 
+> mean(bb[bb$PL2>0,18])
+[1] 79.23564
+> mean(bb[bb$PL2<0,18])
+[1] -41.27667
+>
+> c('run',' 8')
+[1] "run" " 8"
+> b <- calcT(Mkt,8)
+> sum(b$PL2, na.rm=T)
+[1] 20728
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.7352941
+> bb <- na.omit(b) 
+> mean(bb[bb$PL2>0,18])
+[1] 85.84281
+> mean(bb[bb$PL2<0,18])
+[1] -47.01869
+>
+> c('run',' 9')
+[1] "run" " 9"
+> b <- calcT(Mkt,9)
+> sum(b$PL2, na.rm=T)
+[1] 5929
+> #sum(b$PL2>0, na.rm=T)
+> #sum(b$PL2<0, na.rm=T)
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.7477477
+> bb <- na.omit(b) 
+> mean(bb[bb$PL2>0,18])
+[1] 84.3253
+> mean(bb[bb$PL2<0,18])
+[1] -38.21429
+
+
+-------------------------------------------------------
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/CAC_ta.csv")
+
+> c('run',' 2')
+[1] "run" " 2" 
+
+> b <- calcT2(Mkt,2)
+
+> sum(b$PL2, na.rm=T)
+[1] 58108
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6238377
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 42.56185
+
+> mean(bb[bb$PL2<0,18])
+[1] -27.18755
+
+> c('run',' 3')
+[1] "run" " 3" 
+
+> b <- calcT2(Mkt,3)
+
+> sum(b$PL2, na.rm=T)
+[1] 57151
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6274279
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 43.02071
+
+> mean(bb[bb$PL2<0,18])
+[1] -27.43908
+
+> c('run',' 4')
+[1] "run" " 4" 
+
+> b <- calcT2(Mkt,4)
+
+> sum(b$PL2, na.rm=T)
+[1] 53614
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6318572
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 44.33386
+
+> mean(bb[bb$PL2<0,18])
+[1] -28.10881
+
+> c('run',' 5')
+[1] "run" " 5" 
+
+> b <- calcT2(Mkt,5)
+
+> sum(b$PL2, na.rm=T)
+[1] 46157
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6434305
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 46.08905
+
+> mean(bb[bb$PL2<0,18])
+[1] -28.65677
+
+> c('run',' 6')
+[1] "run" " 6" 
+
+> b <- calcT2(Mkt,6)
+
+> sum(b$PL2, na.rm=T)
+[1] 32602
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6450382
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 48.45283
+
+> mean(bb[bb$PL2<0,18])
+[1] -29.86511
+
+> c('run',' 7')
+[1] "run" " 7" 
+
+> b <- calcT2(Mkt,7)
+
+> sum(b$PL2, na.rm=T)
+[1] 17260
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6454892
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 51.92415
+
+> mean(bb[bb$PL2<0,18])
+[1] -33.10108
+
+> c('run',' 8')
+[1] "run" " 8" 
+
+> b <- calcT2(Mkt,8)
+
+> sum(b$PL2, na.rm=T)
+[1] 7166
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6504065
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 63.2549
+
+> mean(bb[bb$PL2<0,18])
+[1] -34.84524
+
+> c('run',' 9')
+[1] "run" " 9" 
+
+> b <- calcT2(Mkt,9)
+
+> sum(b$PL2, na.rm=T)
+[1] 861
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6341463
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 54.40909
+
+> mean(bb[bb$PL2<0,18])
+[1] -42.28571
+
+--------------------------------------------------------------------
+FTSE
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/F100_ta.csv")
+
+> c('run',' 2')
+[1] "run" " 2" 
+
+> b <- calcT2(Mkt,2)
+
+> sum(b$PL2, na.rm=T)
+[1] 76748
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6435811
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 52.05924
+
+> mean(bb[bb$PL2<0,18])
+[1] -33.59968
+
+> c('run',' 3')
+[1] "run" " 3" 
+
+> b <- calcT2(Mkt,3)
+
+> sum(b$PL2, na.rm=T)
+[1] 75052
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6417436
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 52.37906
+
+> mean(bb[bb$PL2<0,18])
+[1] -33.57143
+
+> c('run',' 4')
+[1] "run" " 4" 
+
+> b <- calcT2(Mkt,4)
+
+> sum(b$PL2, na.rm=T)
+[1] 70483
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6448122
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 53.59287
+
+> mean(bb[bb$PL2<0,18])
+[1] -34.37702
+
+> c('run',' 5')
+[1] "run" " 5" 
+
+> b <- calcT2(Mkt,5)
+
+> sum(b$PL2, na.rm=T)
+[1] 60592
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.647949
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 56.23704
+
+> mean(bb[bb$PL2<0,18])
+[1] -35.24603
+
+> c('run',' 6')
+[1] "run" " 6" 
+
+> b <- calcT2(Mkt,6)
+
+> sum(b$PL2, na.rm=T)
+[1] 47704
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6718844
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 60.23091
+
+> mean(bb[bb$PL2<0,18])
+[1] -35.98162
+
+> c('run',' 7')
+[1] "run" " 7" 
+
+> b <- calcT2(Mkt,7)
+
+> sum(b$PL2, na.rm=T)
+[1] 30022
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6851016
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 66.23723
+
+> mean(bb[bb$PL2<0,18])
+[1] -36.5
+
+> c('run',' 8')
+[1] "run" " 8" 
+
+> b <- calcT2(Mkt,8)
+
+> sum(b$PL2, na.rm=T)
+[1] 10909
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6979866
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 69.02404
+
+> mean(bb[bb$PL2<0,18])
+[1] -38.31111
+
+> c('run',' 9')
+[1] "run" " 9" 
+
+> b <- calcT2(Mkt,9)
+
+> sum(b$PL2, na.rm=T)
+[1] 4168
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.8024691
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 76.21538
+
+> mean(bb[bb$PL2<0,18])
+[1] -49.125
+
+------------------------------------------------------
+
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/N225_ta.csv")
+
+> c('run',' 2')
+[1] "run" " 2" 
+
+> b <- calcT2(Mkt,2)
+
+> sum(b$PL2, na.rm=T)
+[1] 224345
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.7012302
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 118.0766
+
+> mean(bb[bb$PL2<0,18])
+[1] -57.64602
+
+> c('run',' 3')
+[1] "run" " 3" 
+
+> b <- calcT2(Mkt,3)
+
+> sum(b$PL2, na.rm=T)
+[1] 222105
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.7014881
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 118.6635
+
+> mean(bb[bb$PL2<0,18])
+[1] -57.877
+
+> c('run',' 4')
+[1] "run" " 4" 
+
+> b <- calcT2(Mkt,4)
+
+> sum(b$PL2, na.rm=T)
+[1] 215085
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.7049336
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 120.9082
+
+> mean(bb[bb$PL2<0,18])
+[1] -58.81505
+
+> c('run',' 5')
+[1] "run" " 5" 
+
+> b <- calcT2(Mkt,5)
+
+> sum(b$PL2, na.rm=T)
+[1] 201543
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.7164179
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 123.4607
+
+> mean(bb[bb$PL2<0,18])
+[1] -59.8956
+
+> c('run',' 6')
+[1] "run" " 6" 
+
+> b <- calcT2(Mkt,6)
+
+> sum(b$PL2, na.rm=T)
+[1] 165315
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.7230199
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 129.7492
+
+> mean(bb[bb$PL2<0,18])
+[1] -62.9395
+
+> c('run',' 7')
+[1] "run" " 7" 
+
+> b <- calcT2(Mkt,7)
+
+> sum(b$PL2, na.rm=T)
+[1] 118876
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.7510949
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 138.0741
+
+> mean(bb[bb$PL2<0,18])
+[1] -68.96746
+
+> c('run',' 8')
+[1] "run" " 8" 
+
+> b <- calcT2(Mkt,8)
+
+> sum(b$PL2, na.rm=T)
+[1] 72333
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.7771174
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 157.4283
+
+> mean(bb[bb$PL2<0,18])
+[1] -66.68
+
+> c('run',' 9')
+[1] "run" " 9" 
+
+> b <- calcT2(Mkt,9)
+
+> sum(b$PL2, na.rm=T)
+[1] 30572
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.8308458
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 197.1976
+
+> mean(bb[bb$PL2<0,18])
+[1] -69.41176
+
+-----------------------------------------------------------------------
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Oz_ta.csv")
+
+> c('run',' 2')
+[1] "run" " 2" 
+
+> b <- calcT2(Mkt,2)
+
+> sum(b$PL2, na.rm=T)
+[1] 41796
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6166618
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 32.12009
+
+> mean(bb[bb$PL2<0,18])
+[1] -19.90069
+
+> c('run',' 3')
+[1] "run" " 3" 
+
+> b <- calcT2(Mkt,3)
+
+> sum(b$PL2, na.rm=T)
+[1] 40166
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6132967
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 32.59781
+
+> mean(bb[bb$PL2<0,18])
+[1] -20.0119
+
+> c('run',' 4')
+[1] "run" " 4" 
+
+> b <- calcT2(Mkt,4)
+
+> sum(b$PL2, na.rm=T)
+[1] 36703
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6151155
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 33.45159
+
+> mean(bb[bb$PL2<0,18])
+[1] -20.06673
+
+> c('run',' 5')
+[1] "run" " 5" 
+
+> b <- calcT2(Mkt,5)
+
+> sum(b$PL2, na.rm=T)
+[1] 31279
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6259328
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 35.31991
+
+> mean(bb[bb$PL2<0,18])
+[1] -20.0589
+
+> c('run',' 6')
+[1] "run" " 6" 
+
+> b <- calcT2(Mkt,6)
+
+> sum(b$PL2, na.rm=T)
+[1] 24489
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6420745
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 39.35763
+
+> mean(bb[bb$PL2<0,18])
+[1] -20.49385
+
+> c('run',' 7')
+[1] "run" " 7" 
+
+> b <- calcT2(Mkt,7)
+
+> sum(b$PL2, na.rm=T)
+[1] 15930
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.6627907
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 45.63077
+
+> mean(bb[bb$PL2<0,18])
+[1] -20.74892
+
+> c('run',' 8')
+[1] "run" " 8" 
+
+> b <- calcT2(Mkt,8)
+
+> sum(b$PL2, na.rm=T)
+[1] 9536
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.7142857
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 59.81081
+
+> mean(bb[bb$PL2<0,18])
+[1] -20.66216
+
+> c('run',' 9')
+[1] "run" " 9" 
+
+> b <- calcT2(Mkt,9)
+
+> sum(b$PL2, na.rm=T)
+[1] 3878
+
+> sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+[1] 0.7536232
+
+> bb <- na.omit(b) 
+
+> mean(bb[bb$PL2>0,18])
+[1] 82.92308
+
+> mean(bb[bb$PL2<0,18])
+[1] -25.52941

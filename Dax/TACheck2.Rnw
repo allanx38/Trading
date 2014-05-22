@@ -15,7 +15,7 @@ source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
 <<echo=FALSE>>=
 Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_ta.csv")
 b <- calcT(Mkt)
-res <- tail(b[, -c(6,7,8,9,10,11,12)],n=15)
+res <- tail(b[, -c(6,7,8,9,11,12)],n=15)
 wr <- round(sum(res$PL2>0) / (sum(res$PL2>0) + sum(res$PL2<0)),2) * 100
 
 c <- sum(res$PL2, na.rm=T)
@@ -34,7 +34,7 @@ print(xtable(res,caption ="Dax"),
 <<echo=FALSE>>=
 Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/CAC_ta.csv")
 b <- calcT(Mkt)
-res <- tail(b[, -c(6,7,8,9,10,11,12)],n=15)
+res <- tail(b[, -c(6,7,8,9,11,12)],n=15)
 wr <- round(sum(res$PL2>0) / (sum(res$PL2>0) + sum(res$PL2<0)),2) * 100
 
 c <- sum(res$PL2, na.rm=T)
@@ -53,7 +53,7 @@ print(xtable(res,caption ="CAC"),
 <<echo=FALSE>>=
 Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/F100_ta.csv")
 b <- calcT(Mkt)
-res <- tail(b[, -c(6,7,8,9,10,11,12)],n=15)
+res <- tail(b[, -c(6,7,8,9,11,12)],n=15)
 wr <- round(sum(res$PL2>0) / (sum(res$PL2>0) + sum(res$PL2<0)),2) * 100
 
 c <- sum(res$PL2, na.rm=T)
@@ -72,7 +72,7 @@ print(xtable(res,caption ="FTSE"),
 <<echo=FALSE>>=
 Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dow_ta.csv")
 b <- calcT(Mkt)
-res <- tail(b[, -c(6,7,8,9,10,11,12)],n=15)
+res <- tail(b[, -c(6,7,8,9,11,12)],n=15)
 wr <- round(sum(res$PL2>0) / (sum(res$PL2>0) + sum(res$PL2<0)),2) * 100
 
 c <- sum(res$PL2, na.rm=T)
@@ -91,7 +91,7 @@ print(xtable(res,caption ="Dow"),
 <<echo=FALSE>>=
 Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/N225_ta.csv")
 b <- calcT(Mkt)
-res <- tail(b[, -c(6,7,8,9,10,11,12)],n=15)
+res <- tail(b[, -c(6,7,8,9,11,12)],n=15)
 wr <- round(sum(res$PL2>0) / (sum(res$PL2>0) + sum(res$PL2<0)),2) * 100
 
 c <- sum(res$PL2, na.rm=T)
@@ -110,7 +110,7 @@ print(xtable(res,caption ="Nik"),
 <<echo=FALSE>>=
 Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Oz_ta.csv")
 b <- calcT(Mkt)
-res <- tail(b[, -c(6,7,8,9,10,11,12)],n=15)
+res <- tail(b[, -c(6,7,8,9,11,12)],n=15)
 wr <- round(sum(res$PL2>0) / (sum(res$PL2>0) + sum(res$PL2<0)),2) * 100
 
 c <- sum(res$PL2, na.rm=T)

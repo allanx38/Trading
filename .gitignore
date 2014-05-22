@@ -213,3 +213,23 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+Data/Dax_ta_res.csv
+Dax/TACheck2.html
+Dax/TACheck2.md
+*.html
+*.md
+Dax/TACheck.pdf
+Data/NA_ta.csv
+Data/Nik_ta.csv
+*.zip
+Dax/BG/TACheck2005-2.R
+Dax/BG/TACheck2005.Rmd
+Dax/TACheck2.tex
+Dax/TACheck.tex
+Dax/TACheck2.pdf
+Data/Dax_ta2.csv
+Data/Dax_ta_res.xlsm
+Data/Dax_ta_res.xlsx
+Data/Dow_ta_res.csv
+Dax/TACheck-gt5.pdf
+Dax/Figures/test.pdf
