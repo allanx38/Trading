@@ -7,7 +7,8 @@ Mkt <- Mkt[3430:ln,]
 head(Mkt)
 nrow(Mkt)
 
-tail(b[,c(1,10,13,14,16,17)],n=30)
+bb <- tail(b[,c(1,11,12,13,14,16,17,18)],n=30)
+write.csv(bb,"test_results2_2305.csv")
 
 c('run',' 2')
 b <- calcT2(Mkt,2)
@@ -27,6 +28,14 @@ mean(bb[bb$PL2<0,18])
 
 c('run',' 4')
 b <- calcT2(Mkt,4)
+sum(b$PL2, na.rm=T)
+sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+bb <- na.omit(b) 
+mean(bb[bb$PL2>0,18])
+mean(bb[bb$PL2<0,18])
+
+c('run',' 5')
+b <- calcT2(Mkt,5)
 sum(b$PL2, na.rm=T)
 sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
 bb <- na.omit(b) 
