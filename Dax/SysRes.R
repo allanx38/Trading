@@ -1,14 +1,27 @@
 source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
 setwd("D:/Allan/DropBox/RWorkingDir/Trading/Dax")
 Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_ta.csv")
-ln <- nrow(Mkt) 
-lw <- 300
-Mkt <- Mkt[3430:ln,]
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/CAC_ta.csv")
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/N225_ta.csv")
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dow_ta.csv")
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Oz_ta.csv")
+Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/F100_ta.csv")
+
+ln <- nrow(Mkt) ;ln
+lw <- ln - 300
+Mkt <- Mkt[lw:ln,]
+#Mkt <- Mkt[1000:1300,]
 head(Mkt)
 nrow(Mkt)
 
-bb <- tail(b[,c(1,11,12,13,14,16,17,18)],n=30)
-write.csv(bb,"test_results2_2305.csv")
+b <- calcT2(Mkt,5)
+sum(b$PL2, na.rm=T)
+sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+
+bb <- tail(b[,-c(3,4,7,8,9,11,14,15)],n=100)
+tail(bb,n=20)
+colnames(b)
+write.csv(bb,"test_results_1yr_N225.csv")
 
 c('run',' 2')
 b <- calcT2(Mkt,2)

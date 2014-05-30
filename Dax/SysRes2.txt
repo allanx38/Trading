@@ -1,0 +1,173 @@
+Dax: 78%
+CAC: 72%
+FTSE: 85%
+Dow: 86%
+Nik: 91%
+Oz: 77%
+
+
+-- 29/05
+
+Dax:  0 -75   8 -67
+CAC:  107  90 -13 184
+FTSE: 0 -248    0 -248
+Dow:  21  0  0 21
+Nik:  0 149   0 149
+Oz:  -9  0  0 -9
+
+
+> Mkt <- read.csv("../Data/Dax_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "29/05/2014"
+> Get_Num(Mkt,"Dax_ta.csv")
+[1]   0 -75   8 -67
+> 
+> Mkt <- read.csv("../Data/CAC_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "29/05/2014"
+> Get_Num(Mkt,"CAC_ta.csv")
+[1] 107  90 -13 184
+> 
+> Mkt <- read.csv("../Data/F100_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "29/05/2014"
+> Get_Num(Mkt,"F100_ta.csv")
+[1]    0 -248    0 -248
+> 
+> Mkt <- read.csv("../Data/Dow_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "29/05/2014"
+> Get_Num(Mkt,"Dow_ta.csv")
+[1] 21  0  0 21
+> 
+> Mkt <- Mkt <- read.csv("../Data/N225_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "29/05/2014"
+> Get_Num(Mkt,"N225_ta.csv")
+[1]   0 149   0 149
+> 
+> Mkt <- read.csv("../Data/Oz_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "29/05/2014"
+> Get_Num(Mkt,"Oz_ta.csv")
+[1] -9  0  0 -9
+
+
+
+
+-- 28/05
+
+Dax:  73  0  0 73			+1
+CAC: 76 -11   0  65			+6
+FTSE:118 -95  61  84           		+20
+Dow: 0 0 0 0 =>  114  13 -51  76	+61
+Nik: 107   0   0 107		 	+43
+Oz:  0 0 0 0 => 381 -300  -83   -2	+7
+
+> Mkt <- read.csv("../Data/Dax_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "28/05/2014"
+> Get_Num(Mkt,"Dax_ta.csv")
+[1] 73  0  0 73
+> Mkt <- read.csv("../Data/CAC_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "28/05/2014"
+> Get_Num(Mkt,"CAC_ta.csv")
+[1]  76 -11   0  65
+> Mkt <- read.csv("../Data/F100_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "28/05/2014"
+> Get_Num(Mkt,"F100_ta.csv")
+[1] 118 -95  61  84
+> Mkt <- read.csv("../Data/Dow_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "28/05/2014"
+> Get_Num(Mkt,"Dow_ta.csv")
+[1] 0 0 0 0
+> Mkt <- Mkt <- read.csv("../Data/N225_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "28/05/2014"
+> Get_Num(Mkt,"N225_ta.csv")
+[1] 107   0   0 107
+> Mkt <- read.csv("../Data/Oz_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "28/05/2014"
+> Get_Num(Mkt,"Oz_ta.csv")
+[1] 0 0 0 0
+
+
+--- 27/05/2014 -> 28/05
+Dax:  -7  0  0 -7		+11
+CAC: 54  -3 -11  40		+4
+FTSE:0 -148    0 -148           -7
+Dow: -15  48   0  33		-41
+Nik: 65  0  0 65		14662,14716,14600,14708 => +50 
+Oz:  -78   0   0 -78		5521,5541,5515,5533     =>  -11
+
+ "27/05/2014"
+> Get_Num(Mkt,"Dax_ta.csv")
+[1] -7  0  0 -7
+
+Mkt <- read.csv("../Data/CAC_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "27/05/2014"
+> Get_Num(Mkt,"CAC_ta.csv")
+[1]  54  -3 -11  40
+> Mkt <- Mkt <- read.csv("../Data/F100_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "27/05/2014"
+> Get_Num(Mkt,"F100_ta.csv")
+[1]    0 -148    0 -148
+> Mkt <- read.csv("../Data/Dow_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "27/05/2014"
+> Get_Num(Mkt,"Dow_ta.csv")
+[1] -15  48   0  33
+> Mkt <- read.csv("../Data/N225_2000.csv")
+> Get_Num(Mkt,"N225_ta.csv")
+[1] 65  0  0 65
+> Mkt <- read.csv("../Data/Oz_2000.csv")
+> as.character(Mkt$Date[nrow(Mkt)])
+[1] "27/05/2014"
+> Get_Num(Mkt,"Oz_ta.csv")
+[1] -78   0   0 -78
+
+
+---------- 23/05/2015
+Dax:  -81  -74    0 -155
+CAC: 32  0  0 32
+FTSE: 71 -121   28  -22
+Dow: 0 -135   32 -103
+Nik: 210   0   0 210
+Oz: -26   0  12 -14
+
+> Mkt <- Mkt <- read.csv("../Data/Dax_2000.csv")
+> Get_Num(Mkt,"Dax_ta.csv");Mkt$Date[nrow(Mkt)]
+[1]  -81  -74    0 -155
+[1] 23/05/2014
+
+> Mkt <- read.csv("../Data/CAC_2000.csv")
+> Get_Num(Mkt,"CAC_ta.csv");Mkt$Date[nrow(Mkt)]
+[1] 32  0  0 32
+[1] 23/05/2014
+
+> Mkt <- Mkt <- read.csv("../Data/F100_2000.csv")
+> Get_Num(Mkt,"F100_ta.csv");Mkt$Date[nrow(Mkt)]
+[1]  0 -3  0 -3
+[1] 22/05/2014
+
+> Mkt <- read.csv("../Data/Dow_2000.csv")
+> Get_Num(Mkt,"Dow_ta.csv");Mkt$Date[nrow(Mkt)]
+[1]    0 -135   32 -103
+[1] 23/05/2014
+
+> Mkt <- Mkt <- read.csv("../Data/N225_2000.csv")
+> Get_Num(Mkt,"N225_ta.csv");Mkt$Date[nrow(Mkt)]
+[1] 210   0   0 210
+[1] 23/05/2014
+
+> Mkt <- read.csv("../Data/Oz_2000.csv")
+> Get_Num(Mkt,"Oz_ta.csv");Mkt$Date[nrow(Mkt)]
+[1] -26   0  12 -14
+[1] 23/05/2014
+
