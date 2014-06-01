@@ -165,7 +165,25 @@ ln <- nrow(Mkt_ta) ;ln
 lw <- ln - 300 ;lw
 Mkt_ta <- Mkt_ta[lw:ln,]
 ln <- nrow(Mkt_ta) ;ln
-r_p_ind(Mkt_ta, ln)
+r_p_ind2(Mkt_ta, ln)
+
+# -----------------------
+
+r_p_ind2 <- function(Mkt, nr){
+  #browser()
+  Mkt <- AddPrev(Mkt)
+  au <- Mkt$aroonUp[nr] 
+  ad <- Mkt$aroonDn[nr] 
+  os <- Mkt$oscillator[nr] 
+  df <- Mkt$Diff[nr] 
+  ln <- nrow(Mkt)
+  Mkt <- Mkt[-ln,]
+  c <- au_df(Mkt,au,df)
+  d <- ad_df(Mkt,ad,df)
+  e <- os_df(Mkt,os,df)
+  e2 <- c+d+e
+  return(c(c,d,e,e2))
+}
 
 row(Mkt_ta$Date[Mkt_ta$Date=="2014-05-08"])
 
