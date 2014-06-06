@@ -4,6 +4,21 @@ library(TTR)
 library(candlesticks)
 library(Quandl)
 
+
+setwd("F:/Allan/R Stuff/Dax")
+source("F:/Allan/R Stuff/Dax/addTA_fnc.R")
+Dax <- read.csv("../Data/Dax_2000.csv")
+addTAInd_prev(Dax,"Dax")
+
+Dax_tap <- read.csv("../Data/Dax_tap.csv")
+tail(Dax_tap[, c(1,2,3,4,5)])
+r_p_ln(Dax_tap)
+ln <- nrow(Dax_tap)
+tail(Dax_tap[1:(ln-2),])
+r_p_ln(Dax_tap[1:(ln-2),])
+
+# -------------------------------
+
 #nm <- c("Dax", "CAC", "F100", "Dow", "N225", "Oz")
 #yh_tick <- c("YAHOO/INDEX_GDAXI","YAHOO/INDEX_FCHI","YAHOO/INDEX_FTSE","YAHOO/INDEX_DJI",
 #           "YAHOO/INDEX_N225","YAHOO/INDEX_AORD")
