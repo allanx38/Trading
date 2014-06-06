@@ -45,7 +45,23 @@ addTAInd_prev <- function(Mkt, nm){
 
 
 
-
+# calculate 1 value - use lsat row
+# does nr need to == nrow(mkt)?
+r_p_ln <- function(Mkt){
+  #browser()
+  ln <- nrow(Mkt)
+  au <- Mkt$prev_aroon_up[ln] 
+  ad <- Mkt$prev_aroon_dn[ln] 
+  os <- Mkt$prev_aroon_os[ln] 
+  df <- Mkt$prev_smadiff[ln]  
+  c <- au_df(Mkt,au,df)
+  d <- ad_df(Mkt,ad,df)
+  e <- os_df(Mkt,os,df)
+  e2 <- c+d+e
+  #f <- Mkt$pl[ln]
+  
+  return(c(c,d,e,e2))
+}
 
 
 
