@@ -21,6 +21,10 @@ fil <- c("../Data/Dax_2000.csv",
 
 source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
 
+
+
+# ----------------------------------------------------
+
 ydax = Quandl(YAHOO/INDEX_DJI, "2014-04-30","2014-05-10")
 ydax <- ydax[,c(1,2,3,4,5)]
 ydax <- ydax[order(ydax$Date),]

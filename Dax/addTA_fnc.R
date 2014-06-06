@@ -2,6 +2,60 @@ library(TTR)
 library(candlesticks)
 library(Quandl)
 
+# ----------------------------------------------
+# 06/06
+
+#Add TA, no candlesticks to Data
+addTAInd_prev <- function(Mkt, nm){
+  #browser()
+  Mkt[2:5] <- round(Mkt[2:5])
+  
+  #atr
+  atr <- ATR(Mkt[,c("High","Low","Close")], n=14)
+  Mkt$atr <- round(atr[,"atr"])
+  
+  #SMA
+  sma <- round(SMA(Mkt["Close"], 10))
+  Mkt <- cbind(Mkt, sma)
+  Mkt$Diff <- ifelse(!is.na(Mkt$sma), Mkt$Close - Mkt$sma, NA)
+  
+  #aroon
+  ar <- aroon(Mkt$Close, n=20)
+  Mkt <- cbind(Mkt, ar)
+  
+  #roc
+  Mkt$mom <- round(momentum(Mkt$Close,n=12)) 
+  lw <- quantile(Mkt$mom, na.rm=T, probs=0.25) 
+  hi <- quantile(Mkt$mom, na.rm=T, probs=0.75)
+  Mkt$hi <- round(hi)
+  Mkt$lw <- round(lw)
+  
+  #Add prev
+  Mkt$prev_smadiff <- c( NA, Mkt$Diff[ - length(Mkt$Diff) ] )
+  Mkt$prev_aroon_up <- c( NA, Mkt$aroonUp[ - length(Mkt$aroonUp) ] )
+  Mkt$prev_aroon_dn <- c( NA, Mkt$aroonDn[ - length(Mkt$aroonDn) ] )
+  Mkt$prev_aroon_os <- c( NA, Mkt$oscillator[ - length(Mkt$oscillator) ] )
+  Mkt$prev_mom <- c( NA, Mkt$mom[ - length(Mkt$mom) ] )
+  Mkt$pl <- Mkt$Close - Mkt$Open
+  
+  #write.csv(Mkt,paste('../Data/', nm, sep=""),row.names=FALSE)
+  write.csv(Mkt,paste('../Data/', nm[i], '_tap.csv',sep=""),row.names=FALSE)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ---------------------------------------
+
 Quandl.auth("mW11caB1btTqNnBWGhtg")
 
 Update_from_yahoo <- function( fil,nm, yh_tick, x, st, en){
