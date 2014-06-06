@@ -17,11 +17,18 @@ nrow(Mkt)
 b <- calcT2(Mkt,5)
 sum(b$PL2, na.rm=T)
 sum(b$PL2>0, na.rm=T) / (sum(b$PL2>0, na.rm=T) + sum(b$PL2<0, na.rm=T))
+tail(b$PL2)
+tail(b)
+ln <- nrow(b)
+ln1 <- ln - 10
+sm <- b$PL2[ln1:ln]
+sum(sm, na.rm=T)
 
 bb <- tail(b[,-c(3,4,7,8,9,11,14,15)],n=100)
 tail(bb,n=20)
 colnames(b)
 write.csv(bb,"test_results_1yr_N225.csv")
+write.csv(b,"test_results_1yr_dax.csv")
 
 c('run',' 2')
 b <- calcT2(Mkt,2)
