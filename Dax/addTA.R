@@ -1,21 +1,41 @@
 
 setwd("D:/Allan/DropBox/RWorkingDir/Trading/Dax")
+source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
 library(TTR)
 library(candlesticks)
 library(Quandl)
 
 
-setwd("F:/Allan/R Stuff/Dax")
-source("F:/Allan/R Stuff/Dax/addTA_fnc.R")
+#setwd("F:/Allan/R Stuff/Dax")
+#source("F:/Allan/R Stuff/Dax/addTA_fnc.R")
 Dax <- read.csv("../Data/Dax_2000.csv")
 addTAInd_prev(Dax,"Dax")
 
 Dax_tap <- read.csv("../Data/Dax_tap.csv")
 tail(Dax_tap[, c(1,2,3,4,5)])
-r_p_ln(Dax_tap)
+ln <- nrow(Dax_tap)
+ln <- ln - 3
+r_p(Dax_tap,ln)
+r_p_ln(Dax_tap,ln)
+r_p_ind(Dax_tap) #curr vals
+
 ln <- nrow(Dax_tap)
 tail(Dax_tap[1:(ln-2),])
 r_p_ln(Dax_tap[1:(ln-2),])
+
+au <- Dax_tap$prev_aroon_up[ln] 
+ad <- Dax_tap$prev_aroon_dn[ln] 
+os <- Dax_tap$prev_aroon_os[ln]
+df <- Dax_tap$prev_smadiff[ln] 
+
+Mkt <- Dax_tap
+sum ( Mkt[ (Mkt$prev_aroon_up == au) & 
+             (Mkt$prev_smadiff > (df - 10) & Mkt$prev_smadiff < (df + 10)), 
+           c(20) ] ,na.rm=T)
+
+Dax_tap[ (Dax_tap$prev_aroon_up == au), c(20)]
+
+colnames(Dax_tap)
 
 # -------------------------------
 
@@ -97,6 +117,7 @@ Mkt <- read.csv("../Data/Oz_2000.csv")
 as.character(Mkt$Date[nrow(Mkt)])
 Get_Num(Mkt,"Oz_ta.csv")
 
+source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
 #3 indv
 #a. ------------- Dax
 Mkt <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_2000.csv")
@@ -105,7 +126,7 @@ Mkt[nrow(Mkt),]
 Mkt$Date <- as.POSIXct(Mkt$Date,format='%d/%m/%Y') ;Mkt$Date[20]
 addTAInd(Mkt, "Dax_ta.csv")
 
-Mkt_ta <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_ta.csv")
+Mkt_ta <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_tap.csv")
 Mkt_ta$Date[nrow(Mkt_ta)]
 Mkt_ta$Date[3669]
 ln <- nrow(Mkt_ta) ;ln
@@ -113,6 +134,10 @@ lw <- ln - 300 ;lw
 Mkt_ta <- Mkt_ta[lw:ln,]
 ln <- nrow(Mkt_ta) ;ln
 r_p_ind(Mkt_ta, 3669)
+r_p_ind(Mkt_ta, ln)
+
+r_p_ln(Mkt_ta)
+
 
 #b. ------------ CAC
 Mkt <- read.csv("../Data/CAC_2000.csv")

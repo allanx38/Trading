@@ -25,10 +25,10 @@ addTAInd_prev <- function(Mkt, nm){
   
   #roc
   Mkt$mom <- round(momentum(Mkt$Close,n=12)) 
-  lw <- quantile(Mkt$mom, na.rm=T, probs=0.25) 
-  hi <- quantile(Mkt$mom, na.rm=T, probs=0.75)
-  Mkt$hi <- round(hi)
-  Mkt$lw <- round(lw)
+  #lw <- quantile(Mkt$mom, na.rm=T, probs=0.25) 
+  #hi <- quantile(Mkt$mom, na.rm=T, probs=0.75)
+  #Mkt$hi <- round(hi)
+  #Mkt$lw <- round(lw)
   
   #Add prev
   Mkt$prev_smadiff <- c( NA, Mkt$Diff[ - length(Mkt$Diff) ] )
@@ -39,21 +39,19 @@ addTAInd_prev <- function(Mkt, nm){
   Mkt$pl <- Mkt$Close - Mkt$Open
   
   #write.csv(Mkt,paste('../Data/', nm, sep=""),row.names=FALSE)
-  write.csv(Mkt,paste('../Data/', nm[i], '_tap.csv',sep=""),row.names=FALSE)
+  write.csv(Mkt,paste('../Data/', nm, '_tap.csv',sep=""),row.names=FALSE)
 }
-
-
 
 
 # calculate 1 value - use lsat row
 # does nr need to == nrow(mkt)?
-r_p_ln <- function(Mkt){
+r_p_ln <- function(Mkt,ns){
   #browser()
-  ln <- nrow(Mkt)
-  au <- Mkt$prev_aroon_up[ln] 
-  ad <- Mkt$prev_aroon_dn[ln] 
-  os <- Mkt$prev_aroon_os[ln] 
-  df <- Mkt$prev_smadiff[ln]  
+  #ln <- nrow(Mkt)
+  au <- Mkt$prev_aroon_up[ns] 
+  ad <- Mkt$prev_aroon_dn[ns] 
+  os <- Mkt$prev_aroon_os[ns] 
+  df <- Mkt$prev_smadiff[ns]  
   c <- au_df(Mkt,au,df)
   d <- ad_df(Mkt,ad,df)
   e <- os_df(Mkt,os,df)
@@ -63,12 +61,24 @@ r_p_ln <- function(Mkt){
   return(c(c,d,e,e2))
 }
 
+# three comparison functions
+au_df2 <- function(Mkt, au, df){
+  sum ( Mkt[ (Mkt$prev_aroon_up == au) & 
+               (Mkt$prev_smadiff > (df - 10) & Mkt$prev_smadiff < (df + 10)), 
+             c(18) ] ,na.rm=T)
+}
 
+ad_df2 <- function(Mkt, ad, df){
+  sum ( Mkt[ (Mkt$prev_aroon_dn == ad) & 
+               (Mkt$prev_smadiff > (df - 10) & Mkt$prev_smadiff < (df + 10)), 
+             c(18) ] ,na.rm=T)
+}
 
-
-
-
-
+os_df2 <- function(Mkt, os, df){
+  sum ( Mkt[ (Mkt$prev_aroon_os == os) & 
+               (Mkt$prev_smadiff > (df - 10) & Mkt$prev_smadiff < (df + 10)), 
+             c(18) ] ,na.rm=T)
+}
 
 # ---------------------------------------
 
@@ -243,6 +253,7 @@ run_rp <- function(Mkt,ln){
 r_p_ind <- function(Mkt, nr){
   #browser()
   Mkt <- AddPrev(Mkt)
+  #write.csv(Mkt,paste('../Data/Dax_tap_orig.csv',sep=""),row.names=FALSE)
   au <- Mkt$aroonUp[nr] 
   ad <- Mkt$aroonDn[nr] 
   os <- Mkt$oscillator[nr] 
@@ -251,6 +262,22 @@ r_p_ind <- function(Mkt, nr){
   d <- ad_df(Mkt,ad,df)
   e <- os_df(Mkt,os,df)
   e2 <- c+d+e
+  return(c(c,d,e,e2))
+}
+
+r_p_ln <- function(Mkt,ns){
+  #browser()
+  #ln <- nrow(Mkt)
+  au <- Mkt$prev_aroon_up[ns] 
+  ad <- Mkt$prev_aroon_dn[ns] 
+  os <- Mkt$prev_aroon_os[ns] 
+  df <- Mkt$prev_smadiff[ns]  
+  c <- au_df(Mkt,au,df)
+  d <- ad_df(Mkt,ad,df)
+  e <- os_df(Mkt,os,df)
+  e2 <- c+d+e
+  #f <- Mkt$pl[ln]
+  
   return(c(c,d,e,e2))
 }
 
