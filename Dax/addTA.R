@@ -11,6 +11,22 @@ library(Quandl)
 Dax <- read.csv("../Data/Dax_2000.csv")
 addTAInd_prev(Dax,"Dax")
 
+CAC <- read.csv("../Data/CAC_2000.csv")
+addTAInd_prev(CAC,"CAC")
+
+F100 <- read.csv("../Data/F100_2000.csv")
+addTAInd_prev(F100,"F100")
+
+Dow <- read.csv("../Data/Dow_2000.csv")
+addTAInd_prev(Dow,"Dow")
+
+N225 <- read.csv("../Data/N225_2000.csv")
+addTAInd_prev(N225,"N225")
+
+Oz <- read.csv("../Data/Oz_2000.csv")
+addTAInd_prev(Oz,"Oz")
+
+
 Dax_tap <- read.csv("../Data/Dax_tap.csv")
 tail(Dax_tap[, c(1,2,3,4,5)])
 ln <- nrow(Dax_tap)
