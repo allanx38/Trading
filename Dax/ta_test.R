@@ -14,7 +14,10 @@ tail(Mkt_tap)
 ln <- nrow(Mkt_tap)
 
 rr <- test(Mkt_tap,2000)
+tail(rr)
+
 write.csv(rr,'../Data/Oz_tap_res.csv')
+write.csv(rr,'../Data/Dow_tap_res.csv')
 
 sm <- sum(ifelse(rr$a4>0,rr$pl,-rr$pl));sm
 sm / nrow(rr)

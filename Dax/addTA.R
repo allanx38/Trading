@@ -5,7 +5,32 @@ library(TTR)
 library(candlesticks)
 library(Quandl)
 
+add_line<- function(indata, line_num, Mkt){
+  indata$Date <- as.POSIXct(indata$Date,format='%m/%d/%Y')
+  indata$Date <- as.character.Date(indata$Date,format='%d/%m/%Y')
+  Mkt_new <- rbind(Mkt,indata[line_num,2:6])
+  return(Mkt_new)
+}
 
+# read from clipboard
+indata <- read.table("clipboard")
+colnames(indata) <- c('Mkt','Date','Open','High','Low','Close')
+
+#Dax
+Dax <- read.csv("../Data/Dax_2000.csv")
+Dax_2 <- add_line(indata,1,Dax)
+tail(Dax_2)
+
+#N225
+Nik <- read.csv("../Data/N225_2000.csv")
+tail(Nik)
+Nik_2 <- add_line(indata,4,Nik) #4th line fr Nikkei
+tail(Nik_2)
+write.csv(Nik_2,"../Data/N225_2000.csv",row.names=FALSE)
+
+tail(dax2)
+
+# create Mkt_tap.csv
 #setwd("F:/Allan/R Stuff/Dax")
 #source("F:/Allan/R Stuff/Dax/addTA_fnc.R")
 Dax <- read.csv("../Data/Dax_2000.csv")
@@ -28,9 +53,12 @@ addTAInd_prev(Oz,"Oz")
 
 
 Dax_tap <- read.csv("../Data/Dax_tap.csv")
+
+Dax_tap <- read.csv("../Data/Dow_tap.csv")
+
 tail(Dax_tap[, c(1,2,3,4,5)])
 ln <- nrow(Dax_tap)
-ln <- ln - 3
+ln <- ln 
 r_p(Dax_tap,ln)
 r_p_ln(Dax_tap,ln)
 r_p_ind(Dax_tap) #curr vals
@@ -142,14 +170,9 @@ Mkt[nrow(Mkt),]
 Mkt$Date <- as.POSIXct(Mkt$Date,format='%d/%m/%Y') ;Mkt$Date[20]
 addTAInd(Mkt, "Dax_ta.csv")
 
-Mkt_ta <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_tap.csv")
+Mkt_ta <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dax_ta.csv")
 Mkt_ta$Date[nrow(Mkt_ta)]
-Mkt_ta$Date[3669]
 ln <- nrow(Mkt_ta) ;ln
-lw <- ln - 300 ;lw
-Mkt_ta <- Mkt_ta[lw:ln,]
-ln <- nrow(Mkt_ta) ;ln
-r_p_ind(Mkt_ta, 3669)
 r_p_ind(Mkt_ta, ln)
 
 r_p_ln(Mkt_ta)
@@ -165,13 +188,8 @@ addTAInd(Mkt, "CAC_ta.csv")
 
 Mkt_ta <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/CAC_ta.csv")
 Mkt_ta$Date[nrow(Mkt_ta)]
-Mkt_ta$Date[3679]
-ln <- nrow(Mkt_ta) ;ln
-lw <- ln - 300 ;lw
-Mkt_ta <- Mkt_ta[lw:ln,]
 ln <- nrow(Mkt_ta) ;ln
 r_p_ind(Mkt_ta, ln)
-r_p_ind(Mkt_ta, 3679)
 
 # c. FTSE 
 Mkt <- read.csv("../Data/F100_2000.csv")
@@ -182,9 +200,7 @@ addTAInd(Mkt, "F100_ta.csv")
 
 Mkt_ta <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/F100_ta.csv")
 Mkt_ta$Date[nrow(Mkt_ta)]
-Mkt_ta$Date[3632]
 ln <- nrow(Mkt_ta) ;ln
-r_p_ind(Mkt_ta, ln)
 r_p_ind(Mkt_ta, ln)
 
 # d. Dow 
@@ -196,15 +212,8 @@ addTAInd(Mkt, "Dow_ta.csv")
 
 Mkt_ta <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Dow_ta.csv")
 Mkt_ta$Date[nrow(Mkt_ta)]
-Mkt_ta$Date[3632]
-ln <- nrow(Mkt_ta) ;ln
-lw <- ln - 300 ;lw
-Mkt_ta <- Mkt_ta[lw:ln,]
-Mkt_ta <- Mkt_ta[3327:3627,]
 ln <- nrow(Mkt_ta) ;ln
 r_p_ind(Mkt_ta, ln)
-r_p_ind(Mkt_ta, 298)
-
 
 # e. N225 
 Mkt <- read.csv("../Data/N225_2000.csv")
@@ -215,9 +224,6 @@ addTAInd(Mkt, "N225_ta.csv")
 
 Mkt_ta <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/N225_ta.csv")
 Mkt_ta$Date[nrow(Mkt_ta)]
-ln <- nrow(Mkt_ta) ;ln
-lw <- ln - 300 ;lw
-Mkt_ta <- Mkt_ta[lw:ln,]
 ln <- nrow(Mkt_ta) ;ln
 r_p_ind(Mkt_ta, ln)
 
@@ -230,9 +236,6 @@ addTAInd(Mkt, "Oz_ta.csv")
 
 Mkt_ta <- read.csv("D:/Allan/DropBox/RWorkingDir/Trading/Data/Oz_ta.csv")
 Mkt_ta$Date[nrow(Mkt_ta)]
-ln <- nrow(Mkt_ta) ;ln
-lw <- ln - 300 ;lw
-Mkt_ta <- Mkt_ta[lw:ln,]
 ln <- nrow(Mkt_ta) ;ln
 r_p_ind2(Mkt_ta, ln)
 
