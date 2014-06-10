@@ -15,11 +15,31 @@ add_line<- function(indata, line_num, Mkt){
 # read from clipboard
 indata <- read.table("clipboard")
 colnames(indata) <- c('Mkt','Date','Open','High','Low','Close')
+tail(indata)
 
 #Dax
 Dax <- read.csv("../Data/Dax_2000.csv")
+tail(Dax)
+#ln <- nrow(Dax)
+#Dax <- Dax[-3689,]
 Dax_2 <- add_line(indata,1,Dax)
 tail(Dax_2)
+write.csv(Dax_2,"../Data/Dax_2000.csv",row.names=FALSE)
+
+#CAC
+CAC <- read.csv("../Data/CAC_2000.csv")
+tail(CAC)
+CAC_2 <- add_line(indata,2,CAC)
+tail(CAC_2)
+write.csv(CAC_2,"../Data/CAC_2000.csv",row.names=FALSE)
+
+#FTSE
+F100 <- read.csv("../Data/F100_2000.csv")
+tail(F100)
+F100_2 <- add_line(indata,3,F100)
+tail(F100_2)
+write.csv(F100_2,"../Data/F100_2000.csv",row.names=FALSE)
+
 
 #N225
 Nik <- read.csv("../Data/N225_2000.csv")
@@ -28,7 +48,13 @@ Nik_2 <- add_line(indata,4,Nik) #4th line fr Nikkei
 tail(Nik_2)
 write.csv(Nik_2,"../Data/N225_2000.csv",row.names=FALSE)
 
-tail(dax2)
+#Oz
+Oz <- read.csv("../Data/Oz_2000.csv")
+tail(Oz)
+Oz_2 <- add_line(indata,5,Oz) #4th line fr Nikkei
+tail(Oz_2)
+write.csv(Oz_2,"../Data/Oz_2000.csv",row.names=FALSE)
+
 
 # create Mkt_tap.csv
 #setwd("F:/Allan/R Stuff/Dax")
@@ -101,7 +127,6 @@ fil <- c("../Data/Dax_2000.csv",
 source("D:/Allan/DropBox/RWorkingDir/Trading/Dax/addTA_fnc.R")
 
 
-
 # ----------------------------------------------------
 
 ydax = Quandl(YAHOO/INDEX_DJI, "2014-04-30","2014-05-10")
@@ -153,7 +178,7 @@ Mkt <- read.csv("../Data/Dow_2000.csv")
 as.character(Mkt$Date[nrow(Mkt)])
 Get_Num(Mkt,"Dow_ta.csv")
 
-  Mkt <- Mkt <- read.csv("../Data/N225_2000.csv")
+Mkt <- Mkt <- read.csv("../Data/N225_2000.csv")
 as.character(Mkt$Date[nrow(Mkt)])
 Get_Num(Mkt,"N225_ta.csv")
 
