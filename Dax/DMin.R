@@ -111,7 +111,7 @@ tail(Oz)
 addTAInd_prev(Oz,"Oz")
 
 # -------------------------------------------------------------
-# 3. Calc DM values
+# 3. Calc DM values - today
 
 # three comparison functions
 au_df <- function(Mkt, au, df){
@@ -227,29 +227,95 @@ test2 <- function(Mkt,st){
   return(res)
 }
 
-Mkt_tap <- read.csv("../Data/Dax_tap.csv")
-Mkt_tap <- read.csv("../Data/CAC_tap.csv")
-Mkt_tap <- read.csv("../Data/F100_tap.csv")
-Mkt_tap <- read.csv("../Data/Dow_tap.csv")
-Mkt_tap <- read.csv("../Data/N225_tap.csv")
-Mkt_tap <- read.csv("../Data/Oz_tap.csv")
+# to do
+# calc rr files, calc DM pl, merge these ...
+Dax_tap <- read.csv("../Data/Dax_tap.csv")
+CAC_tap <- read.csv("../Data/CAC_tap.csv")
+F100_tap <- read.csv("../Data/F100_tap.csv")
+Dow_tap <- read.csv("../Data/Dow_tap.csv")
+N225_tap <- read.csv("../Data/N225_tap.csv")
+Oz_tap <- read.csv("../Data/Oz_tap.csv")
 
-tail(Dax_tap)
-colnames(Dax_tap)
-Dax_tap$Date <- as.POSIXct(Dax_tap$Date,format='%d/%m/%Y') ;Dax_tap$Date[20]
-CAC_tap$Date <- as.POSIXct(CAC_tap$Date,format='%d/%m/%Y') ;CAC_tap$Date[20]
-F100_tap$Date <- as.POSIXct(F100_tap$Date,format='%d/%m/%Y') ;F100_tap$Date[20]
-un <- merge(Dax_tap[,c(1,18)],  
-            CAC_tap[,c(1,18)], 
-            by='Date')
-un <- merge(un,  
-            F100_tap[,c(1,18)], 
-            by='Date')
+tail(Dow_tap)
 
-            F100_tap[,c(1,18)],
-            by='Date')
-            Dow_tap[,c(1,18)],
-            N225_tap[,c(1,18)],
-            Oz_tap[,c(1,18)],
-            by='Date')
-tail(un)
+# calc DM pl
+dx_rr <- test(Dax_tap,2000)
+dx_rr$pl2 <- ifelse(dx_rr$a4>0,dx_rr$pl,-dx_rr$pl)
+
+cc_rr <- test(CAC_tap,2000)
+cc_rr$pl2 <- ifelse(cc_rr$a4>0,cc_rr$pl,-cc_rr$pl)
+
+ft_rr <- test(F100_tap,2000)
+ft_rr$pl2 <- ifelse(ft_rr$a4>0,ft_rr$pl,-ft_rr$pl)
+
+dw_rr <- test(Dow_tap,2000)
+dw_rr$pl2 <- ifelse(dw_rr$a4>0,dw_rr$pl,-dw_rr$pl)
+
+ni_rr <- test(N225_tap,2000)
+ni_rr$pl2 <- ifelse(ni_rr$a4>0,ni_rr$pl,-ni_rr$pl)
+
+oz_rr <- test(Oz_tap,2000)
+oz_rr$pl2 <- ifelse(oz_rr$a4>0,oz_rr$pl,-oz_rr$pl)
+
+tail(dx_rr)
+tail(cc_rr)
+tail(ft_rr)
+tail(dw_rr)
+
+# Change date format, extract Date and pl, rename pl
+dx_rr$Date <- as.POSIXct(dx_rr$Date,format='%d/%m/%Y') ;dx_rr$Date[20]
+cc_rr$Date <- as.POSIXct(cc_rr$Date,format='%d/%m/%Y') ;cc_rr$Date[20]
+ft_rr$Date <- as.POSIXct(ft_rr$Date,format='%d/%m/%Y') ;ft_rr$Date[20]
+dw_rr$Date <- as.POSIXct(dw_rr$Date,format='%d/%m/%Y') ;dw_rr$Date[20]
+ni_rr$Date <- as.POSIXct(ni_rr$Date,format='%d/%m/%Y') ;ni_rr$Date[20]
+oz_rr$Date <- as.POSIXct(oz_rr$Date,format='%d/%m/%Y') ;oz_rr$Date[20]
+
+tail(un1)
+
+# merge pairs
+un1 <- merge(dx_rr[,c(1,11)],
+             cc_rr[,c(1,11)], 
+            by='Date',all=T)
+colnames(un1) <- c('Date', 'DxPL', 'CcPL')
+
+un2 <- merge(ft_rr[,c(1,11)],
+             dw_rr[,c(1,11)], 
+            by='Date',all=T)
+colnames(un2) <- c('Date', 'FtPL', 'DwPL')
+
+un3 <- merge(ni_rr[,c(1,11)],
+             oz_rr[,c(1,11)], 
+             by='Date',all=T)
+colnames(un3) <- c('Date', 'NikPL', 'OzPL')
+
+# final merge
+un1_2 <- merge(un1,un2,by='Date',all=T)
+un_tot <- merge(un1_2,un3,by='Date',all=T)
+un_tot[is.na(un_tot)] <- 0   #remove zeros
+un_tot$tot <- un_tot$DxPL+un_tot$CcPL+un_tot$FtPL+un_tot$DwPL+un_tot$NikPL+un_tot$OzPL
+tail(un_tot,n=100)
+head(un_tot,n=100)
+
+sum(un_tot$tot)
+
+# win rate
+p <- un_tot$tot[un_tot$tot>0]
+q <- un_tot$tot[un_tot$tot<0]
+length(p)/(length(q)+length(p))
+sum(p)
+sum(q)
+
+# week days
+un_tot2 <- un_tot
+un_tot2$Date <- as.POSIXct(un_tot2$Date,format='%Y-%m-%d')
+un_tot2$wd <- weekdays(un_tot2$Date)
+
+sum(un_tot2[un_tot2$wd=='Monday',8])
+p <- un_tot2[un_tot2$tot>0 & un_tot2$wd=='Monday',8]
+q <- un_tot2[un_tot2$tot<0 & un_tot2$wd=='Monday',8]
+length(p)/(length(q)+length(p))
+
+sum(un_tot2[un_tot2$wd=='Tuesday',8])
+sum(un_tot2[un_tot2$wd=='Wednesday',8])
+sum(un_tot2[un_tot2$wd=='Thursday',8])
+sum(un_tot2[un_tot2$wd=='Friday',8])
